@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<title>分詞構文・後置修飾 — 英検準1級</title>
+<style>
+:root{
+  --bg:#000;
+  --surface:#1c1c1e;
+  --surface-2:#2c2c2e;
+  --surface-3:#3a3a3c;
+  --text:#fff;
+  --text-2:#ebebf5;
+  --text-3:#ebebf599;
+  --text-4:#ebebf566;
+  --accent:#64d2ff;
+  --accent-dim:#64d2ff22;
+  --green:#30d158;
+  --green-dim:#30d15822;
+  --red:#ff453a;
+  --red-dim:#ff453a22;
+  --orange:#ff9f0a;
+  --yellow:#ffd60a;
+  --radius-l:20px;
+  --radius-m:14px;
+  --radius-s:10px;
+  --sat:env(safe-area-inset-top);
+  --sab:env(safe-area-inset-bottom);
+  --sal:env(safe-area-inset-left);
+  --sar:env(safe-area-inset-right);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);overscroll-behavior:none}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Hiragino Sans","Helvetica Neue",sans-serif;
+  font-size:16px;line-height:1.5;
+  padding:max(var(--sat),12px) max(var(--sar),16px) max(var(--sab),16px) max(var(--sal),16px);
+  min-height:100vh;min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"ss01","cv11";
+}
+.app{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+
+/* header */
+.hdr{display:flex;align-items:center;gap:10px;padding:4px 2px 2px}
+.cat-badge{
+  font-size:11px;font-weight:700;letter-spacing:.5px;
+  background:var(--accent-dim);color:var(--accent);
+  padding:5px 10px;border-radius:999px;
+  font-family:"SF Pro Text",-apple-system,sans-serif;
+}
+.title{
+  font-family:"SF Pro Display",-apple-system,sans-serif;
+  font-size:22px;font-weight:700;letter-spacing:-.4px;flex:1;
+}
+.reset-btn{
+  background:transparent;border:none;color:var(--text-4);
+  font-size:13px;cursor:pointer;padding:6px 8px;font-family:inherit;
+}
+.reset-btn:active{color:var(--text-3)}
+
+/* stage tracker */
+.stage-track{
+  display:flex;gap:6px;padding:0 2px;
+}
+.stage-pill{
+  flex:1;height:5px;background:var(--surface-3);border-radius:3px;
+  overflow:hidden;position:relative;
+}
+.stage-pill .fill{
+  position:absolute;inset:0;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.stage-pill.done .fill{transform:scaleX(1)}
+.stage-pill.active .fill{transform:scaleX(var(--p,0));background:var(--accent)}
+
+.stage-labels{
+  display:flex;gap:6px;padding:0 2px;font-size:10px;color:var(--text-4);
+  font-weight:600;letter-spacing:.4px;text-transform:uppercase;
+}
+.stage-labels span{flex:1;text-align:center}
+.stage-labels span.active{color:var(--accent)}
+.stage-labels span.done{color:var(--text-3)}
+
+/* card */
+.card{
+  background:var(--surface);
+  border-radius:var(--radius-l);
+  padding:20px;
+  border:.5px solid #ffffff14;
+}
+.card.lift{box-shadow:0 1px 0 #ffffff0a inset}
+
+/* learn */
+.learn-num{
+  font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.8px;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.learn-title{
+  font-family:"SF Pro Display",-apple-system,sans-serif;
+  font-size:20px;font-weight:700;letter-spacing:-.3px;margin-bottom:12px;
+  line-height:1.3;
+}
+.learn-core{
+  background:var(--surface-2);border-radius:var(--radius-m);
+  padding:12px 14px;margin-bottom:14px;font-size:14.5px;color:var(--text-2);
+  border-left:3px solid var(--accent);
+}
+.learn-label{
+  font-size:11px;color:var(--text-4);font-weight:600;letter-spacing:.6px;
+  text-transform:uppercase;margin:14px 0 8px;
+}
+.example{
+  background:var(--surface-2);border-radius:var(--radius-s);
+  padding:10px 12px;margin-bottom:6px;font-size:14px;
+}
+.example .en{color:var(--text);font-weight:500}
+.example .jp{color:var(--text-3);font-size:12.5px;margin-top:4px}
+.learn-tip{
+  margin-top:14px;padding:10px 12px;
+  background:#ffd60a14;border-radius:var(--radius-s);
+  font-size:13px;color:#ffd60a;line-height:1.5;
+}
+.learn-tip::before{content:"💡 ";}
+
+/* question */
+.q-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;color:var(--text-4);font-weight:600;
+  letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase;
+}
+.box-tag{
+  background:var(--surface-3);color:var(--text-3);
+  padding:3px 8px;border-radius:999px;font-size:10px;
+}
+.box-tag.b1{background:#ff453a22;color:#ff453a}
+.box-tag.b2{background:#ff9f0a22;color:#ff9f0a}
+.box-tag.b3{background:#ffd60a22;color:#ffd60a}
+.box-tag.b4{background:#30d15822;color:#30d158}
+.box-tag.b5{background:#64d2ff22;color:#64d2ff}
+
+.q-text{
+  font-size:18px;line-height:1.55;font-weight:500;margin-bottom:18px;
+  font-family:"SF Pro Display",-apple-system,sans-serif;letter-spacing:-.2px;
+}
+.q-blank{
+  display:inline-block;min-width:60px;border-bottom:2px solid var(--accent);
+  text-align:center;padding:0 6px;color:var(--accent);font-weight:600;
+}
+
+/* choices */
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice{
+  background:var(--surface-2);border:1.5px solid transparent;
+  border-radius:var(--radius-m);padding:13px 16px;
+  font-size:15px;font-weight:500;color:var(--text);
+  text-align:left;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;gap:10px;
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.choice:active{transform:scale(.985)}
+.choice .letter{
+  width:24px;height:24px;border-radius:6px;background:var(--surface-3);
+  display:grid;place-items:center;font-size:12px;font-weight:700;
+  color:var(--text-3);flex-shrink:0;
+}
+.choice.correct{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.choice.correct .letter{background:var(--green);color:#000}
+.choice.wrong{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.choice.wrong .letter{background:var(--red);color:#fff}
+.choice.disabled{pointer-events:none;opacity:.55}
+.choice.dim{opacity:.4}
+
+/* type input */
+.type-wrap{margin-bottom:6px}
+.type-hint{
+  font-size:12px;color:var(--text-4);margin-bottom:8px;
+}
+.type-input{
+  width:100%;background:var(--surface-2);
+  border:1.5px solid var(--surface-3);
+  border-radius:var(--radius-m);
+  padding:14px 16px;font-size:17px;color:var(--text);
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;
+  letter-spacing:.3px;
+  -webkit-appearance:none;
+}
+.type-input:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.type-input.correct{border-color:var(--green);background:var(--green-dim);color:var(--green)}
+.type-input.wrong{border-color:var(--red);background:var(--red-dim);color:var(--red)}
+
+/* feedback */
+.feedback{
+  margin-top:14px;padding:14px;border-radius:var(--radius-m);
+  font-size:14px;line-height:1.55;display:none;
+  animation:slideIn .25s cubic-bezier(.4,0,.2,1);
+}
+.feedback.show{display:block}
+.feedback.ok{background:var(--green-dim);color:var(--green);border:.5px solid #30d15833}
+.feedback.ng{background:var(--red-dim);color:var(--red);border:.5px solid #ff453a33}
+.feedback .why-label{
+  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  opacity:.8;margin-bottom:4px;
+}
+.feedback .why{color:var(--text);font-weight:500}
+.feedback .answer-show{
+  font-family:"SF Mono",ui-monospace,monospace;
+  color:var(--text);background:#00000033;padding:2px 8px;border-radius:6px;
+  display:inline-block;margin-top:6px;font-size:13px;
+}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(-6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* confidence */
+.conf-block{
+  margin-top:14px;padding-top:14px;border-top:.5px solid #ffffff14;
+  display:none;
+}
+.conf-block.show{display:block;animation:slideIn .3s .1s both}
+.conf-label{
+  font-size:11px;color:var(--text-4);font-weight:600;letter-spacing:.6px;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.conf-btns{display:flex;gap:8px}
+.conf-btn{
+  flex:1;background:var(--surface-2);border:1.5px solid var(--surface-3);
+  border-radius:var(--radius-m);padding:10px 8px;
+  font-size:13px;font-weight:600;color:var(--text-2);font-family:inherit;
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.conf-btn:active{transform:scale(.96)}
+.conf-btn .em{font-size:16px}
+.conf-btn[data-c="low"]:active{border-color:var(--red)}
+.conf-btn[data-c="mid"]:active{border-color:var(--orange)}
+.conf-btn[data-c="high"]:active{border-color:var(--green)}
+
+/* footer / nav */
+.next-btn{
+  width:100%;background:var(--accent);color:#000;
+  border:none;border-radius:var(--radius-m);
+  padding:15px;font-size:16px;font-weight:700;font-family:inherit;
+  cursor:pointer;display:none;letter-spacing:-.2px;
+  transition:transform .1s,opacity .15s;
+}
+.next-btn.show{display:block;animation:slideIn .25s both}
+.next-btn:active{transform:scale(.985);opacity:.85}
+
+/* learn nav (dots + buttons) */
+.learn-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;gap:10px;
+}
+.dots{display:flex;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--surface-3)}
+.dot.active{background:var(--accent);width:18px;border-radius:4px;transition:width .25s}
+.nav-btn{
+  background:var(--surface-2);color:var(--text);
+  border:none;border-radius:var(--radius-m);
+  padding:11px 18px;font-size:14px;font-weight:600;font-family:inherit;
+  cursor:pointer;letter-spacing:-.1px;
+}
+.nav-btn.primary{background:var(--accent);color:#000}
+.nav-btn:active{opacity:.7}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+
+/* stage intro */
+.intro{
+  background:var(--surface);border-radius:var(--radius-l);
+  padding:24px 20px;text-align:center;
+}
+.intro-icon{
+  font-size:38px;margin-bottom:10px;
+}
+.intro-title{
+  font-family:"SF Pro Display",sans-serif;
+  font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:6px;
+}
+.intro-sub{color:var(--text-3);font-size:14px;margin-bottom:18px;line-height:1.5}
+.intro-stats{
+  display:flex;gap:8px;margin-bottom:18px;justify-content:center;flex-wrap:wrap;
+}
+.stat-chip{
+  background:var(--surface-2);padding:6px 12px;border-radius:999px;
+  font-size:12px;color:var(--text-3);font-weight:600;
+}
+.stat-chip .v{color:var(--text);margin-left:4px}
+
+/* summary */
+.summary-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;
+}
+.summary-cell{
+  background:var(--surface-2);border-radius:var(--radius-m);
+  padding:14px;text-align:center;
+}
+.summary-cell .num{
+  font-family:"SF Pro Display",sans-serif;
+  font-size:28px;font-weight:700;letter-spacing:-.8px;
+}
+.summary-cell .lbl{
+  font-size:11px;color:var(--text-4);font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;margin-top:2px;
+}
+.summary-cell .num.ok{color:var(--green)}
+.summary-cell .num.ng{color:var(--red)}
+.summary-cell .num.acc{color:var(--accent)}
+
+/* leitner viz */
+.leitner-viz{
+  display:flex;gap:4px;margin:14px 0 4px;
+}
+.lbox{
+  flex:1;background:var(--surface-2);border-radius:var(--radius-s);
+  padding:8px 4px;text-align:center;
+}
+.lbox .b-num{font-size:10px;color:var(--text-4);font-weight:700;letter-spacing:.4px}
+.lbox .b-cnt{font-size:18px;font-weight:700;font-family:"SF Pro Display",sans-serif;margin-top:2px}
+.lbox.b1{border-top:2px solid var(--red)}
+.lbox.b2{border-top:2px solid var(--orange)}
+.lbox.b3{border-top:2px solid var(--yellow)}
+.lbox.b4{border-top:2px solid var(--green)}
+.lbox.b5{border-top:2px solid var(--accent)}
+
+/* misc */
+.spacer{height:60px}
+@media (max-width:380px){
+  .q-text{font-size:16.5px}
+  .learn-title{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+"use strict";
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const LEARN_CARDS = [
+  {
+    title: "現在分詞 vs 過去分詞の後置修飾",
+    core: "名詞の後ろに置いて修飾。能動なら -ing、受動/完了なら Vp.p.",
+    examples: [
+      { en: "The girl <b>standing there</b> is my sister.", jp: "立っている＝能動 → standing" },
+      { en: "The letter <b>written in French</b> was hard to read.", jp: "書かれた＝受動 → written" }
+    ],
+    tip: "名詞と分詞の間に「who/which + be動詞」が省略されていると考える。"
+  },
+  {
+    title: "分詞構文の基本パターン",
+    core: "副詞節を分詞で短縮。理由・時・条件・譲歩・付帯状況を表す。",
+    examples: [
+      { en: "<b>Finishing his work</b>, he went home.", jp: "仕事を終えて＝時/理由" },
+      { en: "<b>Built in 1990</b>, this building is a museum.", jp: "受動：1990年に建てられて" },
+      { en: "<b>Not knowing</b> what to do, he asked.", jp: "否定 not は分詞の前" }
+    ],
+    tip: "完了形 Having Vp.p. は主節より前の動作を表す。"
+  },
+  {
+    title: "with + O + 分詞 と 独立分詞構文",
+    core: "with の付帯状況、主節と主語が違う独立分詞構文、慣用句。",
+    examples: [
+      { en: "<b>With his arms folded</b>, he listened.", jp: "腕を組んで＝受動状態" },
+      { en: "<b>The weather being fine</b>, we went out.", jp: "独立分詞構文（主節と主語が違う）" },
+      { en: "<b>All things considered</b>, his plan is reasonable.", jp: "慣用：全てを考慮すると" },
+      { en: "<b>Generally speaking</b>, ...", jp: "一般的に言って（慣用）" }
+    ],
+    tip: "慣用句は丸暗記推奨。frankly speaking / strictly speaking / judging from なども同類。"
+  }
+];
+
+const RECALL_Q = [
+  { id:"r1", q:"___ in 1990, this building is now a museum.", opts:["Building","Built","Having built","Being built"], ans:1, why:"受動の分詞構文 = Because it was built。建てられた側なので過去分詞。" },
+  { id:"r2", q:"___ tired, he kept working.", opts:["Being","Been","Having been","To be"], ans:0, why:"Being + 形容詞 で「〜なので/〜だが」。Although/Because he was tired の短縮。" },
+  { id:"r3", q:"The girl ___ over there is my sister.", opts:["stand","stood","standing","to stand"], ans:2, why:"現在分詞の後置修飾（能動）。who is standing の省略。" },
+  { id:"r4", q:"The letter ___ in French was hard to read.", opts:["writing","wrote","written","to write"], ans:2, why:"過去分詞の後置修飾（受動）。which was written の省略。" },
+  { id:"r5", q:"___ what to do, he asked for help.", opts:["Not knowing","Don't know","Knowing not","Not known"], ans:0, why:"分詞構文の否定は not を分詞の前に置く。Not knowing が正解。" },
+  { id:"r6", q:"___ his work, he went home.", opts:["Finishing","Finished","Having finished","Being finished"], ans:2, why:"完了分詞 Having Vp.p. は主節より前の動作を示す。After he had finished の短縮。" },
+  { id:"r7", q:"The weather ___ fine, we went out.", opts:["was","being","been","to be"], ans:1, why:"独立分詞構文。主節（we）と分詞の主語（the weather）が違うので主語を残す。" },
+  { id:"r8", q:"With his arms ___, he listened carefully.", opts:["fold","folded","folding","to fold"], ans:1, why:"with + O + 過去分詞（受動状態）。腕は「組まれる」側。" },
+  { id:"r9", q:"He stood there, ___ at me.", opts:["stare","stared","staring","to stare"], ans:2, why:"付帯状況の分詞構文。能動で「〜しながら」= staring。" },
+  { id:"r10", q:"Children ___ in cities tend to be busier.", opts:["raise","raised","raising","to raise"], ans:1, why:"過去分詞の後置修飾（受動）。who are raised の省略。子供は「育てられる」側。" },
+  { id:"r11", q:"___ from a distance, it looks like a face.", opts:["Seeing","Seen","Having seen","To see"], ans:1, why:"受動の分詞構文 = When it is seen。「見られる」側なので過去分詞。" },
+  { id:"r12", q:"All things ___, his plan seems reasonable.", opts:["consider","considered","considering","to consider"], ans:1, why:"慣用句 All things considered「全てを考慮すると」。受動の独立分詞構文。" },
+  { id:"r13", q:"Generally ___, women live longer than men.", opts:["speak","spoke","speaking","spoken"], ans:2, why:"慣用句 generally speaking「一般的に言って」。話し手の立場を示す決まり文句。" },
+  { id:"r14", q:"___ ill, she still came to work.", opts:["Although","Being","Despite","Even"], ans:1, why:"Being ill = Although she was ill。譲歩を表す分詞構文。" }
+];
+
+const TYPE_Q = [
+  { id:"t1", q:"___ tired, he went to bed early.", hint:"分詞1語、理由（〜なので疲れて）", ans:["being"], display:"Being", why:"Being + 形容詞 で理由の分詞構文。Because he was tired の短縮。" },
+  { id:"t2", q:"The man ___ in black is suspicious.", hint:"後置修飾の分詞1語、能動", ans:["standing"], display:"standing", why:"現在分詞の後置修飾。who is standing の省略形。" },
+  { id:"t3", q:"The book ___ by Soseki is famous.", hint:"後置修飾の分詞1語、受動", ans:["written"], display:"written", why:"過去分詞の後置修飾。which was written の省略。本は「書かれる」側。" },
+  { id:"t4", q:"___ his homework, he went out.", hint:"完了分詞の最初の1語（Having + Vp.p. の Having）", ans:["having"], display:"Having", why:"完了分詞 Having finished で主節より前の動作。After he had finished の短縮。" },
+  { id:"t5", q:"___ what to say, I kept silent.", hint:"否定の分詞構文「Not knowing」の最初の1語", ans:["not"], display:"Not", why:"分詞構文の否定は not を分詞の前に置く（× Knowing not）。" }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const STORAGE_KEY = "pre1_grammar_c3_v1";
+
+const DEFAULT_STATE = () => ({
+  stage: "intro",       // intro | learn | recall | type | mix | done
+  learnIdx: 0,
+  recallIdx: 0,
+  typeIdx: 0,
+  mixIdx: 0,
+  mixQueue: [],         // [{type:"r"|"t", id}]
+  // per-question state
+  boxes: {},            // id -> 1..5
+  attempts: {},         // id -> [{ok, confidence, ts}]
+  wrongPool: [],        // ids that need re-asking in Mix
+  stats: { r_ok:0, r_ng:0, t_ok:0, t_ng:0, m_ok:0, m_ng:0 }
+});
+
+function load(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return DEFAULT_STATE();
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_STATE(), ...parsed,
+      stats: { ...DEFAULT_STATE().stats, ...(parsed.stats||{}) },
+      boxes: parsed.boxes || {},
+      attempts: parsed.attempts || {},
+      wrongPool: parsed.wrongPool || []
+    };
+  }catch(e){ return DEFAULT_STATE(); }
+}
+
+function save(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+let state = load();
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function buzz(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
+function buzzOk(){ buzz(10); }
+function buzzNg(){ buzz([8,40,8]); }
+function buzzTap(){ buzz(5); }
+
+function getBox(id){ return state.boxes[id] || 1; }
+
+function applyResult(id, ok){
+  const cur = getBox(id);
+  if(ok) state.boxes[id] = Math.min(5, cur + 1);
+  else   state.boxes[id] = 1;
+}
+
+function findQ(id){
+  return RECALL_Q.find(q=>q.id===id) || TYPE_Q.find(q=>q.id===id);
+}
+
+function isTypeId(id){ return id.startsWith("t"); }
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function normalize(s){
+  return (s||"").trim().toLowerCase().replace(/[\s.,!?;:]+$/g,"");
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+const $app = document.getElementById("app");
+
+function el(tag, attrs={}, ...children){
+  const e = document.createElement(tag);
+  for(const k in attrs){
+    if(k==="class") e.className = attrs[k];
+    else if(k==="html") e.innerHTML = attrs[k];
+    else if(k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else if(k==="dataset") Object.assign(e.dataset, attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  for(const c of children){
+    if(c==null) continue;
+    e.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  }
+  return e;
+}
+
+function header(){
+  return el("div", {class:"hdr"},
+    el("span", {class:"cat-badge"}, "c3 · 分詞"),
+    el("div", {class:"title"}, "分詞構文・後置修飾"),
+    el("button", {class:"reset-btn", onclick: confirmReset}, "Reset")
+  );
+}
+
+function stageTracker(){
+  const stages = ["intro","learn","recall","type","mix","done"];
+  const order = ["learn","recall","type","mix"];
+  const curIdx = order.indexOf(state.stage);
+  const track = el("div", {class:"stage-track"});
+  const labelsRow = el("div", {class:"stage-labels"});
+  const labels = ["Learn","Recall","Type","Mix"];
+  order.forEach((s,i)=>{
+    const pill = el("div", {class:"stage-pill"});
+    const fill = el("div", {class:"fill"});
+    pill.appendChild(fill);
+    let p = 0;
+    if(i < curIdx || state.stage==="done") { pill.classList.add("done"); p = 1; }
+    else if(i === curIdx){
+      pill.classList.add("active");
+      if(s==="learn") p = state.learnIdx / LEARN_CARDS.length;
+      else if(s==="recall") p = state.recallIdx / RECALL_Q.length;
+      else if(s==="type") p = state.typeIdx / TYPE_Q.length;
+      else if(s==="mix") p = state.mixQueue.length ? state.mixIdx / state.mixQueue.length : 0;
+    }
+    pill.style.setProperty("--p", p);
+    track.appendChild(pill);
+
+    const lbl = el("span", {}, labels[i]);
+    if(i < curIdx || state.stage==="done") lbl.classList.add("done");
+    if(i === curIdx) lbl.classList.add("active");
+    labelsRow.appendChild(lbl);
+  });
+  return el("div", {}, track, labelsRow);
+}
+
+/* -------- INTRO -------- */
+function viewIntro(){
+  const done = ["learn","recall","type","mix","done"].includes(state.stage) && state.stage!=="intro";
+  return el("div", {class:"intro"},
+    el("div", {class:"intro-icon"}, "📘"),
+    el("div", {class:"intro-title"}, "分詞構文・分詞の後置修飾"),
+    el("div", {class:"intro-sub"}, "長文読解で毎回必出。Learn → Recall → Type → Mix の4段階で定着させる。"),
+    el("div", {class:"intro-stats"},
+      chip("Learn", LEARN_CARDS.length),
+      chip("Recall", RECALL_Q.length),
+      chip("Type", TYPE_Q.length)
+    ),
+    el("button", {class:"nav-btn primary", style:"width:100%", onclick: ()=>{ buzzTap(); state.stage="learn"; state.learnIdx=0; save(); render(); }},
+      "始める")
+  );
+}
+function chip(lbl, v){ return el("span", {class:"stat-chip"}, lbl + " ", el("span",{class:"v"}, String(v))); }
+
+/* -------- LEARN -------- */
+function viewLearn(){
+  const i = state.learnIdx;
+  const c = LEARN_CARDS[i];
+  const dots = el("div", {class:"dots"});
+  LEARN_CARDS.forEach((_,k)=>{
+    const d = el("div", {class:"dot"+(k===i?" active":"")});
+    dots.appendChild(d);
+  });
+
+  const examples = el("div", {});
+  c.examples.forEach(ex=>{
+    examples.appendChild(el("div", {class:"example"},
+      el("div", {class:"en", html: ex.en}),
+      el("div", {class:"jp"}, ex.jp)
+    ));
+  });
+
+  return el("div", {},
+    el("div", {class:"card lift"},
+      el("div", {class:"learn-num"}, `Concept ${i+1} / ${LEARN_CARDS.length}`),
+      el("div", {class:"learn-title"}, c.title),
+      el("div", {class:"learn-core"}, c.core),
+      el("div", {class:"learn-label"}, "例文"),
+      examples,
+      el("div", {class:"learn-tip"}, c.tip),
+      el("div", {class:"learn-nav"},
+        el("button", {class:"nav-btn", disabled: i===0 ? "" : null,
+          onclick: ()=>{ if(i===0) return; buzzTap(); state.learnIdx--; save(); render(); }}, "前へ"),
+        dots,
+        el("button", {class:"nav-btn primary",
+          onclick: ()=>{
+            buzzTap();
+            if(i < LEARN_CARDS.length-1){ state.learnIdx++; save(); render(); }
+            else { state.stage="recall"; state.recallIdx=0; save(); render(); }
+          }}, i < LEARN_CARDS.length-1 ? "次へ" : "Recall →")
+      )
+    )
+  );
+}
+
+/* -------- RECALL / MIX-MC -------- */
+function viewQuestion(qData, isType, isMix){
+  const id = qData.id;
+  const box = getBox(id);
+
+  const meta = el("div", {class:"q-meta"},
+    el("span", {}, (isMix?"Mix · ":(isType?"Type · ":"Recall · ")) +
+      (isMix ? `${state.mixIdx+1} / ${state.mixQueue.length}` :
+       isType ? `${state.typeIdx+1} / ${TYPE_Q.length}` :
+       `${state.recallIdx+1} / ${RECALL_Q.length}`)),
+    el("span", {class:`box-tag b${box}`}, `Box ${box}`)
+  );
+
+  const qBody = isType ? qData.q.replace("___", '<span class="q-blank">_____</span>')
+                       : qData.q.replace("___", '<span class="q-blank">___</span>');
+  const qText = el("div", {class:"q-text", html: qBody});
+
+  const card = el("div", {class:"card"}, meta, qText);
+
+  // build interaction area
+  if(isType){
+    const wrap = el("div", {class:"type-wrap"},
+      el("div", {class:"type-hint"}, qData.hint),
+      el("input", {class:"type-input", type:"text", id:"typeIn", autocomplete:"off", autocapitalize:"none", autocorrect:"off", spellcheck:"false", placeholder:"答えを入力…"})
+    );
+    card.appendChild(wrap);
+    const feedback = el("div", {class:"feedback", id:"fb"});
+    const confBlock = makeConfBlock();
+    const nextBtn = el("button", {class:"next-btn", id:"nextBtn", onclick: ()=>advance(isMix)}, "次へ →");
+    const checkBtn = el("button", {class:"next-btn show", id:"checkBtn",
+      onclick: ()=>checkType(qData, isMix)}, "判定");
+    card.appendChild(feedback);
+    card.appendChild(confBlock);
+    card.appendChild(checkBtn);
+    card.appendChild(nextBtn);
+
+    setTimeout(()=>{
+      const inp = document.getElementById("typeIn");
+      if(inp){
+        inp.focus();
+        inp.addEventListener("keydown", (e)=>{
+          if(e.key==="Enter"){ e.preventDefault(); checkType(qData, isMix); }
+        });
+      }
+    }, 50);
+  } else {
+    const choicesEl = el("div", {class:"choices"});
+    qData.opts.forEach((opt,k)=>{
+      const ch = el("button", {class:"choice", dataset:{k:String(k)}, onclick: (e)=>pickMC(qData, k, isMix)},
+        el("span", {class:"letter"}, "ABCD"[k]),
+        el("span", {}, opt)
+      );
+      choicesEl.appendChild(ch);
+    });
+    card.appendChild(choicesEl);
+    card.appendChild(el("div", {class:"feedback", id:"fb"}));
+    card.appendChild(makeConfBlock());
+    card.appendChild(el("button", {class:"next-btn", id:"nextBtn", onclick: ()=>advance(isMix)}, "次へ →"));
+  }
+
+  return card;
+}
+
+function makeConfBlock(){
+  return el("div", {class:"conf-block", id:"confBlock"},
+    el("div", {class:"conf-label"}, "自信度は？（メタ認知校正）"),
+    el("div", {class:"conf-btns"},
+      confBtn("low","低","🤔"),
+      confBtn("mid","中","🙂"),
+      confBtn("high","高","💪")
+    )
+  );
+}
+function confBtn(c, label, em){
+  return el("button", {class:"conf-btn", dataset:{c}, onclick: (e)=>logConfidence(c)},
+    el("span", {class:"em"}, em),
+    el("span", {}, label)
+  );
+}
+
+function logConfidence(c){
+  // record on latest attempt
+  const id = state._currentId;
+  if(!id) return;
+  buzzTap();
+  const arr = state.attempts[id] || [];
+  if(arr.length){
+    arr[arr.length-1].confidence = c;
+    save();
+  }
+  // show next btn
+  document.getElementById("confBlock").classList.remove("show");
+  const nb = document.getElementById("nextBtn");
+  if(nb) nb.classList.add("show");
+}
+
+function pickMC(qData, picked, isMix){
+  const correct = picked === qData.ans;
+  const choices = document.querySelectorAll(".choice");
+  choices.forEach((c,k)=>{
+    c.classList.add("disabled");
+    if(k === qData.ans) c.classList.add("correct");
+    else if(k === picked) c.classList.add("wrong");
+    else c.classList.add("dim");
+  });
+  recordAttempt(qData.id, correct, isMix, false);
+  showFeedback(correct, qData, false);
+  if(correct) buzzOk(); else buzzNg();
+}
+
+function checkType(qData, isMix){
+  const inp = document.getElementById("typeIn");
+  if(!inp) return;
+  const val = normalize(inp.value);
+  if(!val) return;
+  const ok = qData.ans.includes(val);
+  inp.disabled = true;
+  inp.classList.add(ok ? "correct" : "wrong");
+  document.getElementById("checkBtn").style.display = "none";
+  recordAttempt(qData.id, ok, isMix, true);
+  showFeedback(ok, qData, true);
+  if(ok) buzzOk(); else buzzNg();
+}
+
+function recordAttempt(id, ok, isMix, isType){
+  state._currentId = id;
+  state.attempts[id] = state.attempts[id] || [];
+  state.attempts[id].push({ ok, confidence:null, ts: Date.now() });
+  applyResult(id, ok);
+  // wrong pool: add if wrong, remove if right (so it doesn't pile up)
+  if(!ok){
+    if(!state.wrongPool.includes(id)) state.wrongPool.push(id);
+  } else {
+    // if currently in mix and was in wrongPool, remove
+    if(isMix){
+      const i = state.wrongPool.indexOf(id);
+      if(i>=0) state.wrongPool.splice(i,1);
+    }
+  }
+  // stats
+  if(isMix){ ok ? state.stats.m_ok++ : state.stats.m_ng++; }
+  else if(isType){ ok ? state.stats.t_ok++ : state.stats.t_ng++; }
+  else { ok ? state.stats.r_ok++ : state.stats.r_ng++; }
+  save();
+}
+
+function showFeedback(ok, qData, isType){
+  const fb = document.getElementById("fb");
+  fb.className = "feedback show " + (ok?"ok":"ng");
+  const ansDisplay = isType ? qData.display : qData.opts[qData.ans];
+  fb.innerHTML = "";
+  fb.appendChild(el("div", {class:"why-label"}, ok ? "正解" : "不正解 — 正答："));
+  if(!ok){
+    fb.appendChild(el("div", {class:"answer-show"}, ansDisplay));
+  }
+  fb.appendChild(el("div", {class:"why", style:"margin-top:6px"}, qData.why));
+  // show confidence
+  document.getElementById("confBlock").classList.add("show");
+}
+
+function advance(isMix){
+  buzzTap();
+  if(isMix){
+    state.mixIdx++;
+    // if we've reached the end but still have wrong items, requeue
+    if(state.mixIdx >= state.mixQueue.length){
+      if(state.wrongPool.length > 0){
+        // shuffle wrong pool into a new queue
+        state.mixQueue = shuffle(state.wrongPool.map(id => ({ type: isTypeId(id)?"t":"r", id })));
+        state.mixIdx = 0;
+        if(state.mixQueue.length === 0){
+          state.stage = "done";
+        }
+      } else {
+        state.stage = "done";
+      }
+    }
+    save(); render();
+    return;
+  }
+  if(state.stage === "recall"){
+    state.recallIdx++;
+    if(state.recallIdx >= RECALL_Q.length){
+      state.stage = "type";
+      state.typeIdx = 0;
+    }
+    save(); render();
+    return;
+  }
+  if(state.stage === "type"){
+    state.typeIdx++;
+    if(state.typeIdx >= TYPE_Q.length){
+      // build mix queue: shuffle ALL questions + include all wrong
+      const all = [
+        ...RECALL_Q.map(q=>({type:"r", id:q.id})),
+        ...TYPE_Q.map(q=>({type:"t", id:q.id}))
+      ];
+      state.mixQueue = shuffle(all);
+      state.mixIdx = 0;
+      state.stage = "mix";
+    }
+    save(); render();
+  }
+}
+
+/* -------- DONE -------- */
+function viewDone(){
+  const total = state.stats.r_ok+state.stats.r_ng+state.stats.t_ok+state.stats.t_ng+state.stats.m_ok+state.stats.m_ng;
+  const ok = state.stats.r_ok+state.stats.t_ok+state.stats.m_ok;
+  const ng = total - ok;
+  const acc = total ? Math.round(ok/total*100) : 0;
+
+  // leitner viz
+  const counts = [0,0,0,0,0];
+  Object.values(state.boxes).forEach(b => counts[b-1]++);
+
+  const leitner = el("div", {class:"leitner-viz"});
+  counts.forEach((cnt,k)=>{
+    leitner.appendChild(el("div", {class:"lbox b"+(k+1)},
+      el("div", {class:"b-num"}, "BOX "+(k+1)),
+      el("div", {class:"b-cnt"}, String(cnt))
+    ));
+  });
+
+  return el("div", {class:"intro"},
+    el("div", {class:"intro-icon"}, acc>=85?"🎯":acc>=70?"💪":"📚"),
+    el("div", {class:"intro-title"}, "セッション完了"),
+    el("div", {class:"intro-sub"}, "Leitner 分布で定着度を確認。Box 4-5 に集まるまで反復を。"),
+    el("div", {class:"summary-grid"},
+      sumCell(String(ok), "正解", "ok"),
+      sumCell(String(ng), "不正解", "ng"),
+      sumCell(acc+"%", "正答率", "acc"),
+      sumCell(String(total), "総問題数", null)
+    ),
+    el("div", {class:"learn-label", style:"text-align:left;margin-bottom:6px"}, "Leitner Box 分布"),
+    leitner,
+    el("div", {style:"height:14px"}),
+    el("button", {class:"nav-btn primary", style:"width:100%", onclick: ()=>{
+      buzzTap();
+      // restart but keep boxes (SRS persists)
+      state.stage = "recall";
+      state.recallIdx = 0; state.typeIdx = 0; state.mixIdx = 0;
+      state.mixQueue = [];
+      state.wrongPool = [];
+      save(); render();
+    }}, "もう一周（Box は維持）")
+  );
+}
+function sumCell(num, lbl, cls){
+  return el("div", {class:"summary-cell"},
+    el("div", {class:"num"+(cls?" "+cls:"")}, num),
+    el("div", {class:"lbl"}, lbl)
+  );
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+function confirmReset(){
+  if(confirm("進捗をすべてリセットしますか？\nLeitner Box, 統計, 自信度ログが消えます。")){
+    state = DEFAULT_STATE();
+    save();
+    render();
+  }
+}
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function render(){
+  $app.innerHTML = "";
+  $app.appendChild(header());
+  if(state.stage !== "intro") $app.appendChild(stageTracker());
+
+  switch(state.stage){
+    case "intro": $app.appendChild(viewIntro()); break;
+    case "learn": $app.appendChild(viewLearn()); break;
+    case "recall": $app.appendChild(viewQuestion(RECALL_Q[state.recallIdx], false, false)); break;
+    case "type":   $app.appendChild(viewQuestion(TYPE_Q[state.typeIdx], true, false)); break;
+    case "mix": {
+      if(!state.mixQueue.length){ state.stage="done"; save(); return render(); }
+      const item = state.mixQueue[state.mixIdx];
+      const q = findQ(item.id);
+      const isType = item.type === "t";
+      $app.appendChild(viewQuestion(q, isType, true));
+      break;
+    }
+    case "done": $app.appendChild(viewDone()); break;
+  }
+  $app.appendChild(el("div",{class:"spacer"}));
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+render();
+</script>
+</body>
+</html>
