@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<title>In-add · Home</title>
+
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/sf-pro-display">
+
+<style>
+:root {
+  --bg-0: #f5f5f7;
+  --bg-1: #ffffff;
+  --fg-0: #1d1d1f;
+  --fg-1: #6e6e73;
+  --fg-2: #86868b;
+  --accent: #0071e3;
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-stroke: rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 8px 32px rgba(0,0,0,0.06);
+  --card-shadow: 0 0.5px 0 rgba(255,255,255,0.8) inset, 0 8px 24px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --hairline: rgba(0,0,0,0.08);
+  --skeleton: rgba(0,0,0,0.06);
+  --spring: cubic-bezier(0.32, 0.72, 0, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-0: #0a0a0c;
+    --bg-1: #1c1c1e;
+    --fg-0: #f5f5f7;
+    --fg-1: #aeaeb2;
+    --fg-2: #8e8e93;
+    --accent: #0a84ff;
+    --glass-bg: rgba(28, 28, 30, 0.55);
+    --glass-stroke: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 0.5px 0 rgba(255,255,255,0.06) inset, 0 8px 32px rgba(0,0,0,0.4);
+    --card-shadow: 0 0.5px 0 rgba(255,255,255,0.05) inset, 0 8px 24px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4);
+    --hairline: rgba(255,255,255,0.08);
+    --skeleton: rgba(255,255,255,0.06);
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: 'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  background: var(--bg-0);
+  color: var(--fg-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+body::before {
+  content: '';
+  position: fixed; inset: -20%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(0, 113, 227, 0.22), transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(175, 82, 222, 0.18), transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(255, 149, 0, 0.16), transparent 55%);
+  filter: blur(40px) saturate(1.4);
+  animation: drift 24s var(--spring) infinite alternate;
+  pointer-events: none;
+}
+@media (prefers-color-scheme: dark) {
+  body::before {
+    background:
+      radial-gradient(circle at 15% 10%, rgba(10, 132, 255, 0.28), transparent 45%),
+      radial-gradient(circle at 85% 20%, rgba(191, 90, 242, 0.22), transparent 50%),
+      radial-gradient(circle at 50% 90%, rgba(255, 159, 10, 0.18), transparent 55%);
+  }
+}
+@keyframes drift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-3%, 2%) scale(1.08); } }
+
+.top-bar {
+  position: sticky; top: 0; z-index: 50;
+  padding: 14px 20px 12px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+          backdrop-filter: saturate(180%) blur(24px);
+  border-bottom: 0.5px solid var(--hairline);
+  display: flex; align-items: center; gap: 12px;
+}
+.top-bar .logo {
+  font-weight: 700; font-size: 17px; letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 8px;
+}
+.logo-dot {
+  width: 22px; height: 22px; border-radius: 7px;
+  background: linear-gradient(135deg, #0a84ff, #bf5af2);
+  box-shadow: 0 2px 8px rgba(10,132,255,0.4);
+}
+.top-bar .right {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+.refresh-btn {
+  background: transparent; border: 0; padding: 4px; cursor: pointer;
+  color: var(--fg-1); display: grid; place-items: center;
+  border-radius: 50%; width: 28px; height: 28px;
+  transition: background 0.2s, transform 0.4s var(--spring);
+}
+.refresh-btn:hover { background: var(--hairline); }
+.refresh-btn:active { transform: scale(0.9); }
+.refresh-btn.spinning svg { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hero { padding: 56px 24px 24px; max-width: 980px; margin: 0 auto; }
+.hero h1 {
+  font-size: clamp(34px, 6vw, 56px); font-weight: 700;
+  letter-spacing: -0.035em; line-height: 1.05;
+  background: linear-gradient(180deg, var(--fg-0) 30%, var(--fg-1));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: rise 0.7s var(--spring) both;
+}
+.hero p {
+  margin-top: 14px; font-size: clamp(15px, 1.6vw, 18px);
+  color: var(--fg-1); max-width: 540px; line-height: 1.5;
+  animation: rise 0.7s var(--spring) 0.08s both;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.search-wrap { max-width: 980px; margin: 24px auto 0; padding: 0 24px; animation: rise 0.7s var(--spring) 0.16s both; }
+.search {
+  display: flex; align-items: center; gap: 10px;
+  height: 44px; padding: 0 14px; border-radius: 12px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-stroke);
+  box-shadow: var(--glass-shadow);
+}
+.search svg { width: 16px; height: 16px; color: var(--fg-2); flex-shrink: 0; }
+.search input {
+  flex: 1; background: transparent; border: 0; outline: 0;
+  color: var(--fg-0); font-family: inherit; font-size: 16px; letter-spacing: -0.01em;
+}
+.search input::placeholder { color: var(--fg-2); }
+
+.section-header {
+  max-width: 980px; margin: 32px auto 12px; padding: 0 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-header h2 {
+  font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--fg-2);
+}
+.section-header .line { flex: 1; height: 0.5px; background: var(--hairline); }
+
+.grid {
+  max-width: 980px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.grid + .section-header { margin-top: 36px; }
+.grid:last-of-type { padding-bottom: 80px; }
+
+.card {
+  position: relative;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 20px; min-height: 168px;
+  border-radius: 22px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  border: 0.5px solid var(--glass-stroke);
+  box-shadow: var(--card-shadow);
+  text-decoration: none; color: inherit;
+  cursor: pointer; overflow: hidden;
+  transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring);
+  animation: rise 0.5s var(--spring) both;
+}
+.card::before { content: ''; position: absolute; inset: 0; background: var(--card-accent, transparent); opacity: 0.14; z-index: -1; }
+@media (hover: hover) {
+  .card:hover { transform: translateY(-3px); box-shadow: 0 0.5px 0 rgba(255,255,255,0.8) inset, 0 16px 36px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06); }
+}
+.card:active { transform: scale(0.97); transition-duration: 0.15s; }
+
+.card-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  font-size: 18px; font-weight: 700;
+  background: var(--card-accent, var(--bg-1));
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+.card-title { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; word-break: break-word; }
+.card-subtitle { font-size: 13.5px; color: var(--fg-1); line-height: 1.4; margin-top: 2px; }
+.card-chevron {
+  position: absolute; right: 18px; bottom: 18px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--fg-0); color: var(--bg-0);
+  display: grid; place-items: center;
+  opacity: 0.08;
+  transition: opacity 0.3s var(--spring), transform 0.3s var(--spring);
+}
+.card:hover .card-chevron { opacity: 0.9; transform: translateX(2px); }
+.card-meta {
+  margin-top: auto;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--fg-2);
+  font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+}
+
+/* Skeleton */
+.skeleton {
+  background: var(--glass-bg);
+  border: 0.5px solid var(--glass-stroke);
+  border-radius: 22px;
+  min-height: 168px;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative; overflow: hidden;
+}
+.skeleton::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--skeleton), transparent);
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+.sk-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--skeleton); }
+.sk-line { height: 14px; border-radius: 4px; background: var(--skeleton); }
+.sk-line.short { width: 60%; }
+.sk-line.tiny { width: 40%; height: 10px; margin-top: auto; }
+
+.empty, .error {
+  grid-column: 1 / -1;
+  text-align: center; padding: 60px 20px;
+  color: var(--fg-1); font-size: 15px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.error button {
+  margin-top: 6px;
+  background: var(--accent); color: white; border: 0;
+  padding: 10px 20px; border-radius: 999px;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s var(--spring);
+}
+.error button:active { transform: scale(0.95); }
+
+.footer {
+  max-width: 980px; margin: 0 auto;
+  padding: 0 24px 40px;
+  font-size: 12px; color: var(--fg-2);
+  text-align: center; letter-spacing: 0;
+}
+.footer code {
+  font-family: 'SF Mono', ui-monospace, Menlo, monospace;
+  background: var(--glass-bg);
+  padding: 2px 6px; border-radius: 6px;
+  border: 0.5px solid var(--hairline);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+</style>
+
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="logo"><span class="logo-dot"></span>In-add</div>
+  <div class="right">
+    <span id="count"></span>
+    <button class="refresh-btn" id="refresh" aria-label="再読み込み" title="再読み込み">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 8a6 6 0 1 1-1.76-4.24"/><path d="M14 2v4h-4"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<section class="hero">
+  <h1>すべての<br>ページがここに。</h1>
+  <p>GitHub リポジトリを自動スキャン。HTML ファイルを push するだけで、ここに自動で並びます。</p>
+</section>
+
+<div class="search-wrap">
+  <label class="search">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="7" cy="7" r="5"/><path d="m14 14-3-3"/>
+    </svg>
+    <input id="q" type="search" placeholder="ファイル名で検索…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+  </label>
+</div>
+
+<div id="content"></div>
+
+<footer class="footer">
+  自動同期：<a href="https://github.com/ihax-studio/In-add" target="_blank" rel="noopener">ihax-studio/In-add</a>
+  ／ ファイル追加・編集は GitHub だけでOK ／ <code>⌘K</code> で検索
+</footer>
+
+<script>
+/* ╔═══════════════════════════════════════════════════════════════╗
+   ║  設定 — 通常はここを変える必要なし                              ║
+   ╚═══════════════════════════════════════════════════════════════╝ */
+const CONFIG = {
+  owner:  'ihax-studio',
+  repo:   'In-add',
+  branch: 'main',
+  // localStorage キャッシュ寿命（ミリ秒）。短くするとAPI叩く回数増える
+  cacheTTL: 5 * 60 * 1000,
+  // 除外パターン（パスがこれらを含むと非表示）
+  ignorePaths: ['index.html', '404.html', 'node_modules/', '.github/'],
+  // 除外する先頭文字（隠しファイル/ディレクトリ）
+  ignorePrefix: ['.', '_'],
+};
+
+/* ──────────────────────────────────────────────────────────────
+   GitHub Tree API でリポジトリ全体を1リクエスト取得
+   ────────────────────────────────────────────────────────────── */
+const TREE_URL = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/git/trees/${CONFIG.branch}?recursive=1`;
+const CACHE_KEY = `in-add::tree::${CONFIG.owner}/${CONFIG.repo}/${CONFIG.branch}`;
+
+async function fetchTree({ force = false } = {}) {
+  const cached = readCache();
+  if (!force && cached && Date.now() - cached.ts < CONFIG.cacheTTL) {
+    return { tree: cached.tree, fromCache: true };
+  }
+  try {
+    const res = await fetch(TREE_URL, { headers: { 'Accept': 'application/vnd.github+json' } });
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const data = await res.json();
+    writeCache(data.tree);
+    return { tree: data.tree, fromCache: false };
+  } catch (err) {
+    if (cached) return { tree: cached.tree, fromCache: true, stale: true };
+    throw err;
+  }
+}
+function readCache() {
+  try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch { return null; }
+}
+function writeCache(tree) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), tree })); } catch {}
+}
+
+function filterHtmlFiles(tree) {
+  return tree
+    .filter(n => n.type === 'blob' && n.path.toLowerCase().endsWith('.html'))
+    .filter(n => {
+      const parts = n.path.split('/');
+      if (CONFIG.ignorePaths.some(p => n.path === p || n.path.startsWith(p))) return false;
+      if (parts.some(seg => CONFIG.ignorePrefix.some(pref => seg.startsWith(pref)))) return false;
+      return true;
+    })
+    .map(n => ({
+      path: n.path,
+      name: n.path.split('/').pop(),
+      dir:  n.path.includes('/') ? n.path.split('/').slice(0, -1).join('/') : '',
+    }));
+}
+
+const PALETTE = [
+  '#0a84ff', '#bf5af2', '#ff9f0a', '#30d158', '#ff453a',
+  '#5e5ce6', '#ff375f', '#64d2ff', '#ffd60a', '#32d74b',
+  '#af52de', '#ff6482',
+];
+function hashStr(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return Math.abs(h);
+}
+function pickColor(key) { return PALETTE[hashStr(key) % PALETTE.length]; }
+
+function makeIcon(name) {
+  const base = name.replace(/\.html$/i, '');
+  const cleaned = base.replace(/[\s_\-]+/g, '').slice(0, 3).toUpperCase();
+  return cleaned || '·';
+}
+function makeTitle(name) { return name.replace(/\.html$/i, ''); }
+
+const content = document.getElementById('content');
+const input   = document.getElementById('q');
+const count   = document.getElementById('count');
+const refresh = document.getElementById('refresh');
+
+let ALL_FILES = [];
+
+const chevronSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="m9 18 6-6-6-6"/></svg>`;
+
+function renderSkeletons(n = 6) {
+  let html = '<div class="grid">';
+  for (let i = 0; i < n; i++) {
+    html += `<div class="skeleton"><div class="sk-icon"></div><div class="sk-line"></div><div class="sk-line short"></div><div class="sk-line tiny"></div></div>`;
+  }
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+function renderError(msg, onRetry) {
+  content.innerHTML = `<div class="grid"><div class="error"><div>読み込みに失敗しました</div><div style="font-size:13px;color:var(--fg-2)">${escapeHtml(msg)}</div><button id="retry">もう一度試す</button></div></div>`;
+  document.getElementById('retry').addEventListener('click', onRetry);
+}
+
+function renderEmpty() {
+  content.innerHTML = `<div class="grid"><div class="empty">HTML ファイルがまだありません</div></div>`;
+  count.textContent = '0';
+}
+
+function renderFiles(files) {
+  if (files.length === 0) { renderEmpty(); return; }
+  count.textContent = `${files.length} files`;
+
+  const groups = new Map();
+  for (const f of files) {
+    const k = f.dir || '/';
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(f);
+  }
+  const orderedKeys = [...groups.keys()].sort((a, b) => {
+    if (a === '/') return -1; if (b === '/') return 1;
+    return a.localeCompare(b);
+  });
+
+  let html = '';
+  for (const dir of orderedKeys) {
+    const items = groups.get(dir).sort((a, b) => a.name.localeCompare(b.name, 'ja', { numeric: true }));
+    if (orderedKeys.length > 1) {
+      const label = dir === '/' ? 'ルート' : dir;
+      html += `<div class="section-header"><h2>${escapeHtml(label)}</h2><span class="line"></span><span style="font-size:12px;color:var(--fg-2)">${items.length}</span></div>`;
+    }
+    html += '<div class="grid">';
+    items.forEach((f, i) => {
+      const color = pickColor(f.path);
+      const icon  = makeIcon(f.name);
+      const title = makeTitle(f.name);
+      html += `<a class="card" href="${escapeAttr(f.path)}" style="--card-accent:${color}; animation-delay:${0.04 * i}s"><div class="card-icon">${escapeHtml(icon)}</div><div><div class="card-title">${escapeHtml(title)}</div>${f.dir ? `<div class="card-subtitle">${escapeHtml(f.dir)}</div>` : ''}</div><div class="card-meta">${escapeHtml(f.path)}</div><div class="card-chevron">${chevronSVG}</div></a>`;
+    });
+    html += '</div>';
+  }
+  content.innerHTML = html;
+
+  content.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', () => { if (navigator.vibrate) navigator.vibrate(8); });
+  });
+}
+
+function applyFilter() {
+  const q = input.value.trim().toLowerCase();
+  if (!q) { renderFiles(ALL_FILES); return; }
+  const hits = ALL_FILES.filter(f => f.path.toLowerCase().includes(q));
+  renderFiles(hits);
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s) { return escapeHtml(s); }
+
+async function load({ force = false } = {}) {
+  refresh.classList.add('spinning');
+  if (force || !readCache()) renderSkeletons();
+
+  try {
+    const { tree, stale } = await fetchTree({ force });
+    ALL_FILES = filterHtmlFiles(tree);
+    applyFilter();
+    if (stale) console.warn('[In-add] using stale cache (API failed)');
+  } catch (err) {
+    renderError(err.message, () => load({ force: true }));
+  } finally {
+    refresh.classList.remove('spinning');
+  }
+}
+
+input.addEventListener('input', applyFilter);
+refresh.addEventListener('click', () => load({ force: true }));
+
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); input.focus(); input.select(); }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') load();
+});
+
+load();
+</script>
+
+</body>
+</html>
