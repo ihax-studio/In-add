@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<title>動詞＋前置詞コロケーション · Pre-1</title>
+<style>
+:root {
+  --bg: #000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --surface-3: #3a3a3c;
+  --text: #fff;
+  --text-2: #98989f;
+  --text-3: #6b6b70;
+  --orange: #ff9f0a;
+  --orange-soft: rgba(255,159,10,0.15);
+  --green: #30d158;
+  --red: #ff453a;
+  --blue: #0a84ff;
+  --yellow: #ffd60a;
+  --border: rgba(255,255,255,0.06);
+}
+
+- { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+margin: 0;
+padding: 0;
+background: var(–bg);
+color: var(–text);
+font-family: -apple-system, BlinkMacSystemFont, “SF Pro Text”, “SF Pro Display”, “Helvetica Neue”, sans-serif;
+-webkit-font-smoothing: antialiased;
+font-size: 16px;
+line-height: 1.5;
+overscroll-behavior-y: contain;
+}
+
+body {
+min-height: 100vh;
+min-height: 100dvh;
+padding-top: env(safe-area-inset-top);
+padding-bottom: env(safe-area-inset-bottom);
+padding-left: env(safe-area-inset-left);
+padding-right: env(safe-area-inset-right);
+}
+
+.app {
+max-width: 520px;
+margin: 0 auto;
+padding: 16px 16px 40px;
+}
+
+/* Header */
+.header {
+padding: 8px 4px 16px;
+}
+
+.cat-tag {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+background: var(–orange-soft);
+color: var(–orange);
+font-size: 12px;
+font-weight: 600;
+padding: 4px 10px;
+border-radius: 999px;
+letter-spacing: 0.02em;
+margin-bottom: 12px;
+}
+.cat-tag::before {
+content: “”;
+width: 6px;
+height: 6px;
+background: var(–orange);
+border-radius: 50%;
+}
+
+.title {
+font-size: 26px;
+font-weight: 700;
+letter-spacing: -0.02em;
+margin: 0 0 4px;
+}
+
+.subtitle {
+font-size: 13px;
+color: var(–text-2);
+}
+
+/* Stage tabs */
+.stage-tabs {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 4px;
+background: var(–surface);
+border-radius: 12px;
+padding: 4px;
+margin-bottom: 16px;
+}
+
+.stage-tab {
+position: relative;
+background: transparent;
+border: none;
+color: var(–text-2);
+font-size: 13px;
+font-weight: 600;
+padding: 9px 4px;
+border-radius: 9px;
+cursor: pointer;
+transition: all 0.2s;
+font-family: inherit;
+}
+.stage-tab.active {
+background: var(–surface-3);
+color: var(–text);
+}
+.stage-tab.done {
+color: var(–green);
+}
+.stage-tab.done::after {
+content: “✓”;
+position: absolute;
+top: 2px;
+right: 6px;
+font-size: 9px;
+}
+
+/* SRS grid */
+.srs-grid {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 6px;
+margin-bottom: 18px;
+}
+.srs-box {
+background: var(–surface);
+border-radius: 12px;
+padding: 10px 4px 8px;
+text-align: center;
+}
+.srs-box-num {
+font-size: 10px;
+color: var(–text-3);
+letter-spacing: 0.06em;
+text-transform: uppercase;
+}
+.srs-box-count {
+font-size: 18px;
+font-weight: 700;
+margin-top: 2px;
+font-variant-numeric: tabular-nums;
+}
+.srs-box.b1 .srs-box-count { color: var(–red); }
+.srs-box.b2 .srs-box-count { color: var(–orange); }
+.srs-box.b3 .srs-box-count { color: var(–yellow); }
+.srs-box.b4 .srs-box-count { color: var(–green); }
+.srs-box.b5 .srs-box-count { color: var(–blue); }
+
+/* Progress */
+.progress-card {
+background: var(–surface);
+border-radius: 14px;
+padding: 12px 16px;
+margin-bottom: 16px;
+}
+.progress-label {
+display: flex;
+justify-content: space-between;
+font-size: 13px;
+margin-bottom: 8px;
+}
+.progress-label .left { color: var(–text); font-weight: 600; }
+.progress-label .right { color: var(–text-2); font-variant-numeric: tabular-nums; }
+.progress-bar {
+height: 6px;
+background: var(–surface-2);
+border-radius: 3px;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+background: var(–orange);
+border-radius: 3px;
+transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Cards */
+.card {
+background: var(–surface);
+border-radius: 18px;
+padding: 22px 20px;
+margin-bottom: 14px;
+}
+
+/* Learn */
+.learn-num {
+font-size: 11px;
+color: var(–orange);
+font-weight: 700;
+letter-spacing: 0.12em;
+margin-bottom: 8px;
+}
+.learn-title {
+font-size: 21px;
+font-weight: 700;
+letter-spacing: -0.01em;
+line-height: 1.3;
+margin-bottom: 18px;
+}
+.section {
+margin-bottom: 18px;
+}
+.section:last-child { margin-bottom: 0; }
+.section-label {
+font-size: 10px;
+font-weight: 700;
+color: var(–text-3);
+letter-spacing: 0.14em;
+margin-bottom: 8px;
+}
+.core {
+font-size: 15px;
+line-height: 1.6;
+}
+
+.example {
+background: var(–surface-2);
+border-radius: 12px;
+padding: 11px 14px;
+margin-bottom: 6px;
+}
+.example:last-child { margin-bottom: 0; }
+.example-en {
+font-size: 14.5px;
+font-weight: 500;
+margin-bottom: 3px;
+line-height: 1.45;
+}
+.example-en .hl {
+color: var(–orange);
+font-weight: 700;
+}
+.example-jp {
+color: var(–text-2);
+font-size: 12.5px;
+}
+
+.tip {
+background: rgba(255,159,10,0.08);
+border-left: 3px solid var(–orange);
+padding: 10px 13px;
+border-radius: 8px;
+font-size: 13px;
+line-height: 1.5;
+}
+
+.learn-dots {
+display: flex;
+justify-content: center;
+gap: 6px;
+margin: 14px 0 10px;
+}
+.dot {
+width: 6px;
+height: 6px;
+border-radius: 50%;
+background: var(–surface-3);
+transition: all 0.25s;
+}
+.dot.active {
+background: var(–orange);
+width: 22px;
+border-radius: 3px;
+}
+
+.learn-nav {
+display: flex;
+gap: 10px;
+}
+.btn-secondary {
+flex: 1;
+background: var(–surface);
+color: var(–text);
+border: none;
+font-weight: 600;
+font-size: 15px;
+padding: 14px;
+border-radius: 13px;
+cursor: pointer;
+font-family: inherit;
+}
+.btn-secondary:active { transform: scale(0.98); }
+.btn-secondary:disabled { opacity: 0.35; }
+
+/* Question */
+.q-meta {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 10px;
+}
+.q-num {
+font-size: 12px;
+color: var(–text-2);
+font-weight: 600;
+font-variant-numeric: tabular-nums;
+}
+.q-box {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+background: var(–surface-2);
+padding: 3px 9px;
+border-radius: 6px;
+font-size: 11px;
+color: var(–orange);
+font-weight: 600;
+}
+.q-text {
+font-size: 19px;
+line-height: 1.5;
+font-weight: 500;
+margin-bottom: 20px;
+letter-spacing: -0.01em;
+}
+.q-text .blank {
+display: inline-block;
+min-width: 44px;
+border-bottom: 2px solid var(–orange);
+text-align: center;
+font-weight: 700;
+color: var(–orange);
+padding: 0 6px;
+}
+
+.choices {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+.choice {
+background: var(–surface-2);
+border: 1.5px solid transparent;
+color: var(–text);
+font-size: 17px;
+font-weight: 600;
+padding: 16px 12px;
+border-radius: 13px;
+cursor: pointer;
+transition: transform 0.1s, background 0.2s, border-color 0.2s, color 0.2s;
+font-family: inherit;
+text-align: center;
+}
+.choice:active { transform: scale(0.97); }
+.choice.correct {
+background: rgba(48,209,88,0.18);
+border-color: var(–green);
+color: var(–green);
+}
+.choice.wrong {
+background: rgba(255,69,58,0.18);
+border-color: var(–red);
+color: var(–red);
+}
+.choice.dim { opacity: 0.35; }
+.choice:disabled { cursor: default; }
+
+/* Type input */
+.type-row {
+display: flex;
+gap: 10px;
+margin-bottom: 4px;
+}
+.type-input {
+flex: 1;
+background: var(–surface-2);
+border: 1.5px solid var(–border);
+color: var(–text);
+font-size: 18px;
+font-weight: 600;
+padding: 14px 16px;
+border-radius: 13px;
+font-family: inherit;
+outline: none;
+-webkit-appearance: none;
+text-align: center;
+transition: border-color 0.2s;
+}
+.type-input:focus { border-color: var(–orange); }
+.type-input.correct { border-color: var(–green); color: var(–green); }
+.type-input.wrong { border-color: var(–red); color: var(–red); }
+.type-input:disabled { opacity: 1; }
+
+.type-submit {
+background: var(–orange);
+color: #000;
+border: none;
+font-weight: 700;
+font-size: 15px;
+padding: 14px 18px;
+border-radius: 13px;
+cursor: pointer;
+font-family: inherit;
+}
+.type-submit:active { transform: scale(0.97); }
+.type-submit:disabled { opacity: 0.35; }
+
+/* Feedback */
+.feedback {
+margin-top: 14px;
+padding: 13px 15px;
+border-radius: 13px;
+font-size: 14px;
+line-height: 1.55;
+animation: slideUp 0.25s cubic-bezier(0.2,0,0,1);
+}
+.feedback.correct {
+background: rgba(48,209,88,0.10);
+border: 1px solid rgba(48,209,88,0.28);
+}
+.feedback.wrong {
+background: rgba(255,69,58,0.10);
+border: 1px solid rgba(255,69,58,0.28);
+}
+.feedback-head {
+display: flex;
+align-items: center;
+gap: 8px;
+font-weight: 700;
+font-size: 13px;
+letter-spacing: 0.04em;
+margin-bottom: 6px;
+}
+.feedback.correct .feedback-head { color: var(–green); }
+.feedback.wrong .feedback-head { color: var(–red); }
+.feedback-icon {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+font-size: 11px;
+}
+.feedback.correct .feedback-icon { background: var(–green); color: #000; }
+.feedback.wrong .feedback-icon { background: var(–red); color: #000; }
+.feedback-why { color: var(–text); }
+.feedback-why .ans { color: var(–orange); font-weight: 700; }
+
+@keyframes slideUp {
+from { opacity: 0; transform: translateY(8px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* Confidence */
+.confidence-block {
+margin-top: 14px;
+animation: slideUp 0.3s cubic-bezier(0.2,0,0,1);
+}
+.conf-label {
+font-size: 11px;
+color: var(–text-3);
+text-align: center;
+letter-spacing: 0.08em;
+margin-bottom: 8px;
+}
+.conf-row {
+display: flex;
+gap: 8px;
+}
+.conf-btn {
+flex: 1;
+background: var(–surface-2);
+border: 1.5px solid transparent;
+color: var(–text-2);
+font-size: 13px;
+font-weight: 600;
+padding: 11px 6px;
+border-radius: 11px;
+cursor: pointer;
+font-family: inherit;
+transition: all 0.15s;
+}
+.conf-btn:active { transform: scale(0.96); }
+.conf-btn.selected {
+background: rgba(10,132,255,0.18);
+border-color: var(–blue);
+color: var(–blue);
+}
+
+/* Primary button */
+.btn-primary {
+width: 100%;
+background: var(–orange);
+color: #000;
+border: none;
+font-weight: 700;
+font-size: 16px;
+padding: 15px;
+border-radius: 13px;
+cursor: pointer;
+font-family: inherit;
+margin-top: 14px;
+letter-spacing: -0.01em;
+}
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.35; }
+
+/* Stage complete */
+.complete {
+text-align: center;
+padding: 32px 16px;
+}
+.complete-emoji {
+font-size: 52px;
+margin-bottom: 8px;
+}
+.complete-title {
+font-size: 22px;
+font-weight: 700;
+letter-spacing: -0.02em;
+margin-bottom: 4px;
+}
+.complete-sub {
+font-size: 14px;
+color: var(–text-2);
+margin-bottom: 20px;
+}
+.stat-row {
+display: flex;
+justify-content: center;
+gap: 28px;
+margin: 18px 0 24px;
+}
+.stat-val {
+font-size: 28px;
+font-weight: 700;
+color: var(–orange);
+letter-spacing: -0.02em;
+font-variant-numeric: tabular-nums;
+}
+.stat-label {
+font-size: 10px;
+color: var(–text-3);
+letter-spacing: 0.1em;
+margin-top: 2px;
+}
+
+/* Footer */
+.footer {
+text-align: center;
+padding: 22px 0 4px;
+font-size: 12px;
+color: var(–text-3);
+}
+.reset-btn {
+background: none;
+border: none;
+color: var(–text-3);
+font-size: 12px;
+cursor: pointer;
+text-decoration: underline;
+font-family: inherit;
+padding: 4px 8px;
+}
+
+.hidden { display: none !important; }
+
+/* Mix label */
+.mix-pill {
+display: inline-block;
+background: rgba(10,132,255,0.15);
+color: var(–blue);
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 0.1em;
+padding: 2px 7px;
+border-radius: 5px;
+margin-left: 6px;
+vertical-align: middle;
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <span class="cat-tag">c5 · 動詞＋前置詞</span>
+    <h1 class="title">コロケーション</h1>
+    <p class="subtitle">英検準1級 大問1 対策 · 20組叩き込み</p>
+  </div>
+
+  <div class="stage-tabs" id="tabs"></div>
+  <div id="content"></div>
+
+  <div class="footer">
+    <button class="reset-btn" id="resetBtn">進捗をリセット</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ============ DATA ============
+const LEARN = [
+  {
+    n: 1,
+    title: "動詞＋前置詞は「ペア」で覚える",
+    core: "意味で覚えるより「セット」で記憶する方が定着する。20組を反復で叩き込む。",
+    examples: [
+      { en: 'She <span class="hl">apologized for</span> being late.', jp: 'apologize + for = 〜について謝る' },
+      { en: 'He <span class="hl">insisted on</span> paying.', jp: 'insist + on = 主張する' },
+      { en: 'I <span class="hl">object to</span> that idea.', jp: 'object + to = 反対する' },
+    ],
+    tip: "似た前置詞のセットで混同しやすい組をまとめて覚える。"
+  },
+  {
+    n: 2,
+    title: "result in / result from（紛らわしい組）",
+    core: "同じ動詞でも前置詞で意味が変わる。",
+    examples: [
+      { en: 'Hard work <span class="hl">resulted in</span> success.', jp: 'in = 結果として〜になる（結果方向 →）' },
+      { en: 'The accident <span class="hl">resulted from</span> carelessness.', jp: 'from = 〜から生じる（原因方向 ←）' },
+    ],
+    tip: "in → 結果方向 / from → 原因方向 と矢印で覚える。"
+  },
+  {
+    n: 3,
+    title: "deprive A of B / accuse A of B / blame A for B",
+    core: "A と B を結ぶ前置詞は動詞ごとに固定。",
+    examples: [
+      { en: 'They <span class="hl">deprived</span> him <span class="hl">of</span> his rights.', jp: '〜から〜を奪う' },
+      { en: 'They <span class="hl">accused</span> him <span class="hl">of</span> stealing.', jp: '〜を〜で告発' },
+      { en: "Don't <span class=\"hl\">blame</span> me <span class=\"hl\">for</span> the mistake.", jp: '〜を〜で責める' },
+    ],
+    tip: "deprive / rob / accuse / remind は「of」、blame / thank は「for」と動詞ごとに固定。"
+  },
+];
+
+const RECALL = [
+  { id:'r1',  q:'She apologized __ being late.',          choices:['for','to','on','with'],    a:'for',   why:'apologize for ~（〜について謝る）' },
+  { id:'r2',  q:'He insisted __ paying.',                 choices:['in','on','at','for'],      a:'on',    why:'insist on ~（〜を主張する）' },
+  { id:'r3',  q:'I object __ his proposal.',              choices:['with','against','to','on'],a:'to',    why:'object to ~（〜に反対する）。to は不定詞ではなく前置詞' },
+  { id:'r4',  q:'It depends __ the weather.',             choices:['on','in','at','with'],     a:'on',    why:'depend on ~（〜次第・〜に頼る）' },
+  { id:'r5',  q:'His effort resulted __ success.',        choices:['from','with','in','on'],   a:'in',    why:'result in ~（結果として〜になる）。in = 結果方向' },
+  { id:'r6',  q:'The accident resulted __ carelessness.', choices:['from','in','with','of'],   a:'from',  why:'result from ~（〜から生じる）。from = 原因方向' },
+  { id:'r7',  q:'Please refer __ page 10.',               choices:['on','with','at','to'],     a:'to',    why:'refer to ~（〜を参照する）' },
+  { id:'r8',  q:"He's suffering __ a cold.",              choices:['from','with','of','by'],   a:'from',  why:'suffer from ~（〜に苦しむ／病気）' },
+  { id:'r9',  q:'This consists __ three parts.',          choices:['from','in','of','by'],     a:'of',    why:'consist of ~（〜から成る）' },
+  { id:'r10', q:'She complained __ the noise.',           choices:['for','about','on','to'],   a:'about', why:'complain about ~（〜について不平を言う）' },
+  { id:'r11', q:'They agreed __ the proposal.',           choices:['to','with','on','at'],     a:'to',    why:'agree to + 提案（〜を承諾）／ agree with + 人' },
+  { id:'r12', q:"Don't blame me __ the mistake.",         choices:['of','for','on','with'],    a:'for',   why:'blame A for B（〜のことで責める）' },
+  { id:'r13', q:'He succeeded __ winning the contract.',  choices:['on','at','in','for'],      a:'in',    why:'succeed in ~ing（〜に成功する）' },
+  { id:'r14', q:"She's afraid __ heights.",               choices:['of','from','with','at'],   a:'of',    why:'be afraid of ~（〜を恐れる）' },
+  { id:'r15', q:"I'm interested __ history.",             choices:['with','at','in','on'],     a:'in',    why:'be interested in ~（〜に興味がある）' },
+  { id:'r16', q:"Don't deprive him __ his rights.",       choices:['from','of','on','with'],   a:'of',    why:'deprive A of B（A から B を奪う）' },
+  { id:'r17', q:'They accused him __ stealing.',          choices:['for','of','on','with'],    a:'of',    why:'accuse A of B（A を B で告発／非難）' },
+  { id:'r18', q:"He's devoted __ his work.",              choices:['for','at','to','with'],    a:'to',    why:'be devoted to ~（〜に献身する）。to は前置詞' },
+];
+
+const TYPE_Q = [
+  { id:'t1',  q:'She apologized __ being late.',         a:'for',  why:'apologize for ~' },
+  { id:'t2',  q:'He insisted __ paying.',                a:'on',   why:'insist on ~' },
+  { id:'t3',  q:'I object __ that idea.',                a:'to',   why:'object to ~' },
+  { id:'t4',  q:'It depends __ you.',                    a:'on',   why:'depend on ~' },
+  { id:'t5',  q:'His effort resulted __ victory.',       a:'in',   why:'result in ~（結果）' },
+  { id:'t6',  q:'The error resulted __ carelessness.',   a:'from', why:'result from ~（原因）' },
+  { id:'t7',  q:'This consists __ three parts.',         a:'of',   why:'consist of ~' },
+  { id:'t8',  q:'He suffers __ asthma.',                 a:'from', why:'suffer from ~' },
+  { id:'t9',  q:'They accused him __ lying.',            a:'of',   why:'accuse A of B' },
+  { id:'t10', q:"She's devoted __ her family.",          a:'to',   why:'be devoted to ~' },
+];
+
+const ALL_IDS = [...RECALL.map(x=>x.id), ...TYPE_Q.map(x=>x.id)];
+const ITEM_BY_ID = {};
+RECALL.forEach(x => ITEM_BY_ID[x.id] = { ...x, type: 'recall' });
+TYPE_Q.forEach(x => ITEM_BY_ID[x.id] = { ...x, type: 'type' });
+
+const STORAGE_KEY = 'pre1_grammar_c5_v1';
+
+// ============ STATE ============
+const defaultState = () => ({
+  stage: 'learn', // 'learn' | 'recall' | 'type' | 'mix'
+  learnIdx: 0,
+  recallIdx: 0,
+  typeIdx: 0,
+  mixQueue: null,   // array of ids
+  mixIdx: 0,
+  completed: { learn: false, recall: false, type: false, mix: false },
+  scores: { recall: [0,0], type: [0,0], mix: [0,0] }, // [correct, total]
+  boxes: ALL_IDS.reduce((acc,id) => (acc[id]=1, acc), {}),
+  confidence: {},
+  // transient (per question)
+  selected: null,
+  inputValue: '',
+  answered: false,
+  lastCorrect: null,
+});
+
+let state = load();
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    // Merge any new ids that didn't exist before
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      boxes: { ...base.boxes, ...(parsed.boxes||{}) },
+      completed: { ...base.completed, ...(parsed.completed||{}) },
+      scores: { ...base.scores, ...(parsed.scores||{}) },
+      confidence: { ...base.confidence, ...(parsed.confidence||{}) },
+    };
+  } catch(e) {
+    return defaultState();
+  }
+}
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ============ HAPTICS ============
+function haptic(pattern) {
+  if (navigator.vibrate) {
+    try { navigator.vibrate(pattern); } catch(e) {}
+  }
+}
+const tap = () => haptic(10);
+const ok  = () => haptic([8, 30, 8]);
+const err = () => haptic([20, 40, 20, 40, 20]);
+
+// ============ RENDER ============
+const $tabs = document.getElementById('tabs');
+const $content = document.getElementById('content');
+
+function renderTabs() {
+  const stages = [
+    { key: 'learn',  label: 'Learn'  },
+    { key: 'recall', label: 'Recall' },
+    { key: 'type',   label: 'Type'   },
+    { key: 'mix',    label: 'Mix'    },
+  ];
+  $tabs.innerHTML = stages.map(s => {
+    const cls = ['stage-tab'];
+    if (state.stage === s.key) cls.push('active');
+    if (state.completed[s.key]) cls.push('done');
+    return `<button class="${cls.join(' ')}" data-stage="${s.key}">${s.label}</button>`;
+  }).join('');
+  $tabs.querySelectorAll('.stage-tab').forEach(b => {
+    b.addEventListener('click', () => {
+      tap();
+      switchStage(b.dataset.stage);
+    });
+  });
+}
+
+function switchStage(stage) {
+  // Reset transient
+  state.stage = stage;
+  state.selected = null;
+  state.inputValue = '';
+  state.answered = false;
+  state.lastCorrect = null;
+  save();
+  render();
+}
+
+function srsView() {
+  const counts = [0,0,0,0,0];
+  ALL_IDS.forEach(id => {
+    const b = Math.min(5, Math.max(1, state.boxes[id] || 1));
+    counts[b-1]++;
+  });
+  return `
+    <div class="srs-grid">
+      ${counts.map((c,i)=>`
+        <div class="srs-box b${i+1}">
+          <div class="srs-box-num">BOX ${i+1}</div>
+          <div class="srs-box-count">${c}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function progressView(stageLabel, idx, total) {
+  const pct = Math.min(100, Math.round((idx / total) * 100));
+  return `
+    <div class="progress-card">
+      <div class="progress-label">
+        <span class="left">${stageLabel}</span>
+        <span class="right">${idx} / ${total}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+  `;
+}
+
+// ----- LEARN -----
+function renderLearn() {
+  const total = LEARN.length;
+  if (state.learnIdx >= total) {
+    return renderCompleteLearn();
+  }
+  const card = LEARN[state.learnIdx];
+  $content.innerHTML = `
+    ${progressView('概念カード', state.learnIdx + 1, total)}
+    <div class="card">
+      <div class="learn-num">CARD ${card.n} / ${total}</div>
+      <h2 class="learn-title">${card.title}</h2>
+
+      <div class="section">
+        <div class="section-label">コア</div>
+        <div class="core">${card.core}</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">例文</div>
+        ${card.examples.map(ex => `
+          <div class="example">
+            <div class="example-en">${ex.en}</div>
+            <div class="example-jp">${ex.jp}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section">
+        <div class="section-label">TIP</div>
+        <div class="tip">${card.tip}</div>
+      </div>
+    </div>
+
+    <div class="learn-dots">
+      ${LEARN.map((_,i)=>`<div class="dot ${i===state.learnIdx?'active':''}"></div>`).join('')}
+    </div>
+
+    <div class="learn-nav">
+      <button class="btn-secondary" id="prevBtn" ${state.learnIdx===0?'disabled':''}>← 前へ</button>
+      <button class="btn-primary" id="nextBtn" style="margin-top:0">
+        ${state.learnIdx === total - 1 ? 'Recall へ進む' : '次へ →'}
+      </button>
+    </div>
+  `;
+  document.getElementById('prevBtn').onclick = () => {
+    if (state.learnIdx > 0) { tap(); state.learnIdx--; save(); render(); }
+  };
+  document.getElementById('nextBtn').onclick = () => {
+    tap();
+    if (state.learnIdx === total - 1) {
+      state.completed.learn = true;
+      state.learnIdx = total; // done state
+      save();
+      render();
+    } else {
+      state.learnIdx++;
+      save();
+      render();
+    }
+  };
+}
+
+function renderCompleteLearn() {
+  $content.innerHTML = `
+    <div class="card complete">
+      <div class="complete-emoji">📘</div>
+      <div class="complete-title">概念インプット完了</div>
+      <div class="complete-sub">次は 4 択で「型」を固める</div>
+      <button class="btn-primary" id="toRecall">Recall を始める →</button>
+      <div style="margin-top:10px">
+        <button class="btn-secondary" id="reLearn">もう一度見直す</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('toRecall').onclick = () => { tap(); switchStage('recall'); };
+  document.getElementById('reLearn').onclick = () => { tap(); state.learnIdx = 0; save(); render(); };
+}
+
+// ----- RECALL -----
+function renderRecall() {
+  const total = RECALL.length;
+  if (state.recallIdx >= total) {
+    return renderCompleteStage('recall', '🎯', 'Recall 完了', 'Type 入力で能動再生');
+  }
+  const q = RECALL[state.recallIdx];
+  renderQuestion({
+    type: 'choice',
+    item: q,
+    stageLabel: '4択',
+    idx: state.recallIdx,
+    total,
+    onSubmit: (correct) => {
+      state.scores.recall[1]++;
+      if (correct) state.scores.recall[0]++;
+    },
+    onNext: () => {
+      state.recallIdx++;
+      if (state.recallIdx >= total) state.completed.recall = true;
+      state.selected = null;
+      state.answered = false;
+      state.lastCorrect = null;
+      save();
+      render();
+    },
+  });
+}
+
+// ----- TYPE -----
+function renderType() {
+  const total = TYPE_Q.length;
+  if (state.typeIdx >= total) {
+    return renderCompleteStage('type', '⌨️', 'Type 完了', 'Mix でシャッフル総仕上げ');
+  }
+  const q = TYPE_Q[state.typeIdx];
+  renderQuestion({
+    type: 'input',
+    item: q,
+    stageLabel: '入力',
+    idx: state.typeIdx,
+    total,
+    onSubmit: (correct) => {
+      state.scores.type[1]++;
+      if (correct) state.scores.type[0]++;
+    },
+    onNext: () => {
+      state.typeIdx++;
+      if (state.typeIdx >= total) state.completed.type = true;
+      state.inputValue = '';
+      state.answered = false;
+      state.lastCorrect = null;
+      save();
+      render();
+    },
+  });
+}
+
+// ----- MIX -----
+function ensureMixQueue() {
+  if (!state.mixQueue || state.mixQueue.length === 0) {
+    const ids = [...ALL_IDS];
+    // shuffle
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+    }
+    state.mixQueue = ids;
+    state.mixIdx = 0;
+  }
+}
+
+function renderMix() {
+  ensureMixQueue();
+  if (state.mixIdx >= state.mixQueue.length) {
+    return renderCompleteStage('mix', '🏆', 'Mix 完了', '全 28 問クリア');
+  }
+  const id = state.mixQueue[state.mixIdx];
+  const item = ITEM_BY_ID[id];
+  const total = state.mixQueue.length;
+  const isInput = item.type === 'type';
+  renderQuestion({
+    type: isInput ? 'input' : 'choice',
+    item,
+    stageLabel: 'Mix',
+    idx: state.mixIdx,
+    total,
+    isMix: true,
+    onSubmit: (correct) => {
+      state.scores.mix[1]++;
+      if (correct) {
+        state.scores.mix[0]++;
+      } else {
+        // re-queue at end
+        state.mixQueue.push(id);
+      }
+    },
+    onNext: () => {
+      state.mixIdx++;
+      if (state.mixIdx >= state.mixQueue.length) state.completed.mix = true;
+      state.selected = null;
+      state.inputValue = '';
+      state.answered = false;
+      state.lastCorrect = null;
+      save();
+      render();
+    },
+  });
+}
+
+// ----- Question renderer (shared) -----
+function renderQuestion({ type, item, stageLabel, idx, total, onSubmit, onNext, isMix }) {
+  const box = state.boxes[item.id] || 1;
+  const qHtml = item.q.replace('__', '<span class="blank">　</span>');
+
+  $content.innerHTML = `
+    ${srsView()}
+    ${progressView(stageLabel + (isMix ? ' <span class="mix-pill">SHUFFLED</span>' : ''), idx + 1, total)}
+    <div class="card">
+      <div class="q-meta">
+        <div class="q-num">Q ${idx + 1} / ${total}</div>
+        <div class="q-box">📦 BOX ${box}</div>
+      </div>
+      <div class="q-text">${qHtml}</div>
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="confArea"></div>
+      <div id="nextArea"></div>
+    </div>
+  `;
+
+  const $answer = document.getElementById('answerArea');
+  const $fb = document.getElementById('feedbackArea');
+  const $conf = document.getElementById('confArea');
+  const $next = document.getElementById('nextArea');
+
+  function handleAnswer(userAns) {
+    const correct = userAns.trim().toLowerCase() === item.a.toLowerCase();
+    state.answered = true;
+    state.lastCorrect = correct;
+    if (correct) ok(); else err();
+
+    // Update Leitner box
+    if (correct) {
+      state.boxes[item.id] = Math.min(5, (state.boxes[item.id] || 1) + 1);
+    } else {
+      state.boxes[item.id] = 1;
+    }
+    onSubmit(correct);
+    save();
+    renderAfterAnswer(userAns, correct);
+  }
+
+  function renderAfterAnswer(userAns, correct) {
+    // Re-render the answer area showing locked-in state
+    if (type === 'choice') {
+      $answer.innerHTML = `
+        <div class="choices">
+          ${item.choices.map(c => {
+            let cls = 'choice';
+            if (c === item.a) cls += ' correct';
+            else if (c === userAns) cls += ' wrong';
+            else cls += ' dim';
+            return `<button class="${cls}" disabled>${c}</button>`;
+          }).join('')}
+        </div>
+      `;
+    } else {
+      $answer.innerHTML = `
+        <div class="type-row">
+          <input class="type-input ${correct?'correct':'wrong'}" value="${escapeHtml(userAns)}" disabled />
+          <button class="type-submit" disabled>✓</button>
+        </div>
+      `;
+    }
+
+    $fb.innerHTML = `
+      <div class="feedback ${correct?'correct':'wrong'}">
+        <div class="feedback-head">
+          <span class="feedback-icon">${correct?'✓':'×'}</span>
+          ${correct ? 'CORRECT' : 'INCORRECT'}
+        </div>
+        <div class="feedback-why">
+          ${correct
+            ? `<span class="ans">${item.a}</span> — ${item.why}`
+            : `正解は <span class="ans">${item.a}</span>。${item.why}`}
+        </div>
+      </div>
+    `;
+
+    const conf = state.confidence[item.id];
+    $conf.innerHTML = `
+      <div class="confidence-block">
+        <div class="conf-label">この問題、どれくらい自信があった？</div>
+        <div class="conf-row">
+          <button class="conf-btn ${conf==='low'?'selected':''}"  data-c="low">低</button>
+          <button class="conf-btn ${conf==='mid'?'selected':''}"  data-c="mid">中</button>
+          <button class="conf-btn ${conf==='high'?'selected':''}" data-c="high">高</button>
+        </div>
+      </div>
+    `;
+    $conf.querySelectorAll('.conf-btn').forEach(b => {
+      b.onclick = () => {
+        tap();
+        state.confidence[item.id] = b.dataset.c;
+        save();
+        // Update selection visually
+        $conf.querySelectorAll('.conf-btn').forEach(x => x.classList.toggle('selected', x === b));
+      };
+    });
+
+    $next.innerHTML = `<button class="btn-primary" id="goNext">次へ →</button>`;
+    document.getElementById('goNext').onclick = () => { tap(); onNext(); };
+  }
+
+  // Initial render (unanswered)
+  if (type === 'choice') {
+    $answer.innerHTML = `
+      <div class="choices">
+        ${item.choices.map(c => `<button class="choice" data-c="${c}">${c}</button>`).join('')}
+      </div>
+    `;
+    $answer.querySelectorAll('.choice').forEach(b => {
+      b.onclick = () => handleAnswer(b.dataset.c);
+    });
+  } else {
+    $answer.innerHTML = `
+      <div class="type-row">
+        <input class="type-input" id="typeInput" autocomplete="off" autocapitalize="off"
+               autocorrect="off" spellcheck="false" placeholder="前置詞を1語" />
+        <button class="type-submit" id="typeSubmit">提出</button>
+      </div>
+    `;
+    const $inp = document.getElementById('typeInput');
+    const $sub = document.getElementById('typeSubmit');
+    $inp.focus();
+    $sub.disabled = true;
+    $inp.addEventListener('input', () => {
+      $sub.disabled = $inp.value.trim().length === 0;
+    });
+    $inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && $inp.value.trim()) handleAnswer($inp.value);
+    });
+    $sub.onclick = () => { if ($inp.value.trim()) handleAnswer($inp.value); };
+  }
+}
+
+function renderCompleteStage(stageKey, emoji, title, subtitle) {
+  const [correct, total] = state.scores[stageKey];
+  const pct = total > 0 ? Math.round((correct/total)*100) : 0;
+  const nextMap = { recall: 'type', type: 'mix', mix: null };
+  const nextStage = nextMap[stageKey];
+  const nextLabel = { type: 'Type を始める →', mix: 'Mix を始める →' }[nextStage];
+
+  $content.innerHTML = `
+    ${srsView()}
+    <div class="card complete">
+      <div class="complete-emoji">${emoji}</div>
+      <div class="complete-title">${title}</div>
+      <div class="complete-sub">${subtitle}</div>
+      <div class="stat-row">
+        <div>
+          <div class="stat-val">${correct}/${total}</div>
+          <div class="stat-label">CORRECT</div>
+        </div>
+        <div>
+          <div class="stat-val">${pct}%</div>
+          <div class="stat-label">ACCURACY</div>
+        </div>
+      </div>
+      ${nextStage ? `<button class="btn-primary" id="toNext">${nextLabel}</button>` : ''}
+      <div style="margin-top:10px">
+        <button class="btn-secondary" id="redo">もう一度</button>
+      </div>
+    </div>
+  `;
+  if (nextStage) {
+    document.getElementById('toNext').onclick = () => { tap(); switchStage(nextStage); };
+  }
+  document.getElementById('redo').onclick = () => {
+    tap();
+    if (stageKey === 'recall') { state.recallIdx = 0; state.scores.recall = [0,0]; state.completed.recall = false; }
+    if (stageKey === 'type')   { state.typeIdx = 0;   state.scores.type = [0,0];   state.completed.type = false; }
+    if (stageKey === 'mix')    { state.mixQueue = null; state.mixIdx = 0; state.scores.mix = [0,0]; state.completed.mix = false; }
+    save();
+    render();
+  };
+}
+
+// ----- ROUTER -----
+function render() {
+  renderTabs();
+  if (state.stage === 'learn')  return renderLearn();
+  if (state.stage === 'recall') return renderRecall();
+  if (state.stage === 'type')   return renderType();
+  if (state.stage === 'mix')    return renderMix();
+}
+
+// ----- UTIL -----
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+// ----- RESET -----
+document.getElementById('resetBtn').onclick = () => {
+  if (confirm('進捗・SRS ボックス・自信度をすべてリセットする？')) {
+    tap();
+    localStorage.removeItem(STORAGE_KEY);
+    state = defaultState();
+    render();
+  }
+};
+
+// ----- INIT -----
+render();
+</script>
+
+</body>
+</html>
