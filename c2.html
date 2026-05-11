@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>関係詞 C2 · 英検準1級</title>
+<style>
+:root {
+  --bg: #000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --surface-3: #3a3a3c;
+  --separator: rgba(84, 84, 88, 0.45);
+  --text: #f2f2f7;
+  --text-2: #8e8e93;
+  --text-3: #636366;
+  --blue: #0a84ff;
+  --blue-dim: rgba(10, 132, 255, 0.16);
+  --green: #30d158;
+  --green-dim: rgba(48, 209, 88, 0.14);
+  --red: #ff453a;
+  --red-dim: rgba(255, 69, 58, 0.14);
+  --yellow: #ffd60a;
+  --orange: #ff9f0a;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 17px;
+  line-height: 1.45;
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  padding-top: calc(var(--safe-top) + 8px);
+  padding-bottom: calc(var(--safe-bottom) + 110px);
+}
+
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ─── Header ──────────────────── */
+.head {
+  padding: 12px 4px 12px;
+}
+.head .crumb {
+  font-size: 12px;
+  color: var(--text-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.head .title {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 0;
+  line-height: 1.1;
+}
+.head .title b {
+  color: var(--blue);
+  font-weight: 700;
+}
+.head .sub {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Phase tabs ──────────────────── */
+.phases {
+  display: flex;
+  gap: 4px;
+  margin: 14px 0 18px;
+  padding: 3px;
+  background: var(--surface);
+  border-radius: 11px;
+}
+.phase-tab {
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  position: relative;
+}
+.phase-tab.active {
+  background: var(--blue);
+  color: #fff;
+}
+.phase-tab.done:not(.active) {
+  color: var(--green);
+}
+.phase-tab.done:not(.active)::after {
+  content: "✓";
+  font-size: 10px;
+  margin-left: 3px;
+  font-weight: 700;
+}
+.phase-tab:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── Card base ──────────────────── */
+.card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 18px 18px 20px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ─── Learn card ──────────────────── */
+.learn-card .core-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.learn-card h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 14px;
+}
+.learn-card .core {
+  font-size: 14px;
+  color: var(--text);
+  background: var(--surface-2);
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+.learn-card .ex-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 4px 0 8px;
+}
+.learn-card .ex {
+  padding: 9px 0;
+  border-top: 0.5px solid var(--separator);
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+.learn-card .ex:first-of-type { border-top: none; padding-top: 2px; }
+.learn-card .ex em {
+  display: block;
+  color: var(--text-2);
+  font-style: normal;
+  font-size: 12.5px;
+  margin-top: 3px;
+  letter-spacing: 0;
+}
+.learn-card .tip {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--blue-dim);
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.learn-card .tip strong {
+  color: var(--blue);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.card-pager {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 4px 0 14px;
+}
+.card-pager .pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--surface-3);
+  transition: all 0.25s;
+}
+.card-pager .pip.active {
+  background: var(--blue);
+  width: 22px; border-radius: 3px;
+}
+.card-pager .pip.done { background: var(--text-3); }
+
+/* ─── Confidence picker ──────────────────── */
+.confidence {
+  margin: 0 0 14px;
+}
+.confidence .label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.conf-row {
+  display: flex;
+  gap: 8px;
+}
+.conf-btn {
+  flex: 1;
+  padding: 11px 8px;
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.12s;
+  letter-spacing: 0.01em;
+}
+.conf-btn:active { transform: scale(0.97); }
+.conf-btn.sel {
+  background: var(--blue-dim);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ─── Q meta row (box + counter) ──────────────────── */
+.q-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.q-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.box-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.box-pill .label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.box-row { display: flex; gap: 3px; }
+.box-row .seg {
+  width: 12px; height: 4px; border-radius: 2px;
+  background: var(--surface-3);
+  transition: background 0.3s;
+}
+.box-row .seg.on { background: var(--blue); }
+
+/* ─── Question text ──────────────────── */
+.q-text {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.q-text .blank {
+  display: inline-block;
+  min-width: 56px;
+  padding: 0 6px;
+  margin: 0 2px;
+  border-bottom: 2px solid var(--blue);
+  color: var(--blue);
+  font-weight: 700;
+  text-align: center;
+}
+.q-hint {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-top: -8px;
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Choices ──────────────────── */
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.choice {
+  display: flex;
+  align-items: center;
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, transform 0.08s;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+  letter-spacing: -0.005em;
+}
+.choice:active:not(.locked) {
+  transform: scale(0.985);
+  background: var(--surface-3);
+}
+.choice .key {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  color: var(--text-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 11px;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.choice.correct {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+.choice.correct .key {
+  background: var(--green);
+  color: #000;
+}
+.choice.wrong {
+  border-color: var(--red);
+  background: var(--red-dim);
+}
+.choice.wrong .key {
+  background: var(--red);
+  color: #fff;
+}
+.choice.locked { cursor: default; }
+.choice.dim { opacity: 0.45; }
+
+/* ─── Input field (Type phase) ──────────────────── */
+.type-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1.5px solid var(--surface-3);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 19px;
+  color: var(--text);
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.type-input:focus { border-color: var(--blue); }
+.type-input.correct { border-color: var(--green); background: var(--green-dim); }
+.type-input.wrong { border-color: var(--red); background: var(--red-dim); }
+
+/* ─── Feedback ──────────────────── */
+.feedback {
+  margin-top: 14px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  display: none;
+  animation: slideUp 0.22s ease-out;
+}
+.feedback.show { display: block; }
+.feedback.correct {
+  background: var(--green-dim);
+  border-left: 3px solid var(--green);
+}
+.feedback.wrong {
+  background: var(--red-dim);
+  border-left: 3px solid var(--red);
+}
+.feedback .verdict {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.feedback.correct .verdict { color: var(--green); }
+.feedback.wrong .verdict { color: var(--red); }
+.feedback .why {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.feedback .why .ans {
+  display: inline-block;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-weight: 600;
+  margin: 0 2px;
+}
+.feedback .calib {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 0.5px solid var(--separator);
+  font-size: 12px;
+  color: var(--text-2);
+  letter-spacing: 0.01em;
+}
+.feedback .calib b {
+  font-weight: 700;
+  color: var(--text);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Bottom CTA ──────────────────── */
+.cta-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 14px 16px calc(var(--safe-bottom) + 14px);
+  background: linear-gradient(to top, rgba(0,0,0,0.96) 55%, rgba(0,0,0,0));
+  z-index: 50;
+  pointer-events: none;
+}
+.cta-bar .inner {
+  max-width: 520px;
+  margin: 0 auto;
+  pointer-events: auto;
+}
+.cta {
+  width: 100%;
+  padding: 15px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: -0.01em;
+}
+.cta:active:not(:disabled) { transform: scale(0.985); opacity: 0.92; }
+.cta:disabled {
+  background: var(--surface-2);
+  color: var(--text-3);
+  cursor: not-allowed;
+}
+
+/* ─── Stats / completion ──────────────────── */
+.done-banner {
+  text-align: center;
+  padding: 28px 18px 18px;
+  background: var(--surface);
+  border-radius: 16px;
+  margin-bottom: 14px;
+}
+.done-banner .icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  filter: saturate(1.2);
+}
+.done-banner .title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.015em;
+}
+.done-banner .sub {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.stat {
+  background: var(--surface-2);
+  border-radius: 11px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.stat .val {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.stat .lab {
+  font-size: 10px;
+  color: var(--text-2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 3px;
+}
+
+/* ─── Box overview (phase result) ──────────────────── */
+.box-overview {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.box-overview .head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.box-overview .head-row .title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.box-overview .head-row .sub {
+  font-size: 11px;
+  color: var(--text-2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.box-overview .dist {
+  display: flex;
+  gap: 4px;
+  height: 26px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.box-overview .dist > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+}
+.box-overview .legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--text-2);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Reset link ──────────────────── */
+.reset-link {
+  display: block;
+  text-align: center;
+  color: var(--text-2);
+  font-size: 12px;
+  margin: 20px auto 8px;
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
+}
+.reset-link:active { color: var(--red); }
+
+/* ─── Hidden helper ──────────────────── */
+.hidden { display: none !important; }
+
+/* ─── Mix queue indicator ──────────────────── */
+.queue-info {
+  font-size: 12px;
+  color: var(--text-2);
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+.queue-info b { color: var(--blue); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="head">
+    <div class="crumb">英検準1級 · 文法</div>
+    <h1 class="title">関係詞 <b>C2</b></h1>
+    <p class="sub">複合関係詞・非制限用法・関係副詞</p>
+  </header>
+
+  <nav class="phases" id="phases">
+    <button class="phase-tab active" data-phase="learn">Learn</button>
+    <button class="phase-tab" data-phase="recall">Recall</button>
+    <button class="phase-tab" data-phase="type">Type</button>
+    <button class="phase-tab" data-phase="mix">Mix</button>
+  </nav>
+
+  <main id="main"></main>
+
+  <button class="reset-link" id="resetBtn">進捗をリセット</button>
+</div>
+
+<div class="cta-bar">
+  <div class="inner">
+    <button class="cta" id="ctaBtn">次へ</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+
+const LEARN = [
+  {
+    id: 'L1',
+    title: '関係代名詞の基本',
+    core: 'who（人・主格） / whom（人・目的格） / whose（所有格） / which（物） / that（両方OK・非制限不可）',
+    examples: [
+      { en: 'The man <b>who</b> called is my uncle.', ja: '電話してきた男性は私のおじだ。（主格）' },
+      { en: 'The book <b>whose</b> cover is red is mine.', ja: '表紙が赤い本は私のだ。（所有格）' },
+      { en: 'He bought a car, <b>which</b> surprised us.', ja: '彼は車を買い、それは私たちを驚かせた。（節全体を受ける which）' }
+    ],
+    tip: '<strong>注意:</strong> 非制限用法（コンマ付き）では <b>that</b> は使えない。先行詞が節全体なら必ず <b>which</b>。'
+  },
+  {
+    id: 'L2',
+    title: '関係副詞 when / where / why / how',
+    core: '前置詞 + which を1語で置き換えたもの',
+    examples: [
+      { en: 'This is the house <b>where</b> I was born.', ja: '= in which。私が生まれた家だ。' },
+      { en: 'I remember the day <b>when</b> we met.', ja: '= on which。会った日を覚えている。' },
+      { en: 'The reason <b>why</b> he left is unclear.', ja: '= for which。彼が去った理由は不明だ。' }
+    ],
+    tip: '<strong>変換ルール:</strong> in/on/at/for + which = where / when / why に置換可能。場所→where、時→when、理由→why。'
+  },
+  {
+    id: 'L3',
+    title: '複合関係詞 -ever',
+    core: 'whoever / whatever / whichever / wherever / whenever / however = anyone who / anything that ...',
+    examples: [
+      { en: '<b>Whoever</b> wants to come is welcome.', ja: '来たい人は誰でも歓迎。（= anyone who）' },
+      { en: '<b>However</b> hard it is, I\'ll finish.', ja: 'どんなに難しくてもやり遂げる。（= No matter how）' },
+      { en: 'Choose <b>whichever</b> you prefer.', ja: '好きな方を選んで。（限定された選択肢から）' }
+    ],
+    tip: '<strong>語順:</strong> <b>However + 形容詞/副詞 + S + V</b>。<b>whatever</b> = any thing that、<b>whichever</b> = 限定範囲内で「どちらでも」。'
+  }
+];
+
+const RECALL = [
+  { id: 'R1',  s: 'The man ___ I met yesterday is a doctor.', c: ['who','whom','whose','which'], a: 1,
+    why: '直後に S(I) + V(met) が続き、met の目的語が欠けている。人の<b>目的格</b>なので <span class="ans">whom</span>。口語では who も可だが、文法問題では whom が正解。' },
+  { id: 'R2',  s: 'The book ___ cover is red is mine.', c: ['who','whose','which','that'], a: 1,
+    why: '直後に名詞 cover が続き「本の表紙」という所有関係。所有格の関係代名詞 <span class="ans">whose</span>。物にも whose が使える。' },
+  { id: 'R3',  s: 'This is the house ___ I was born.', c: ['which','that','where','when'], a: 2,
+    why: '先行詞が「場所(house)」、後ろに完全な文 (I was born) が続く。場所を表す<b>関係副詞</b> <span class="ans">where</span>（= in which）。' },
+  { id: 'R4',  s: 'I remember the day ___ we first met.', c: ['which','when','where','that'], a: 1,
+    why: '先行詞が「時(day)」、後ろに完全な文が続く。時を表す関係副詞 <span class="ans">when</span>（= on which）。' },
+  { id: 'R5',  s: 'He bought a car, ___ surprised everyone.', c: ['that','which','what','who'], a: 1,
+    why: 'コンマ付き<b>非制限用法</b>で、先行詞は前の節全体「車を買った事」。節全体を受けられるのは <span class="ans">which</span>。非制限用法では that は使えない。' },
+  { id: 'R6',  s: 'Tom, ___ is my cousin, lives in Paris.', c: ['that','who','whom','which'], a: 1,
+    why: 'コンマ付き非制限用法 + 先行詞が人 + 主格。<span class="ans">who</span> が正解。非制限用法では that 不可。' },
+  { id: 'R7',  s: '___ wants to come is welcome.', c: ['Who','Whoever','Whatever','Wherever'], a: 1,
+    why: '文頭で名詞節を作り「来たい人は誰でも」という意味。複合関係代名詞 <span class="ans">Whoever</span>（= anyone who）。' },
+  { id: 'R8',  s: 'You can choose ___ you want.', c: ['whoever','whatever','wherever','whenever'], a: 1,
+    why: '「欲しいものは何でも」= anything that。物を指す複合関係代名詞 <span class="ans">whatever</span>。' },
+  { id: 'R9',  s: '___ hard it is, I will finish.', c: ['Whatever','However','Whenever','Whichever'], a: 1,
+    why: '直後に形容詞 hard が続く。<b>However + 形容詞 + S + V</b> の譲歩構文。<span class="ans">However</span>（= No matter how）。' },
+  { id: 'R10', s: 'I\'ll go ___ you go.', c: ['whoever','whenever','wherever','however'], a: 2,
+    why: '「あなたが行くどこへでも」= to any place that。場所の副詞節を作る <span class="ans">wherever</span>。' },
+  { id: 'R11', s: 'This is ___ I wanted to say.', c: ['which','that','what','whose'], a: 2,
+    why: '先行詞がなく「私が言いたかったこと」= the thing that。先行詞を含む関係代名詞 <span class="ans">what</span>。' },
+  { id: 'R12', s: 'There are five students, two of ___ are boys.', c: ['who','whom','them','which'], a: 1,
+    why: '前置詞 of の後ろは目的格。先行詞が人なので <span class="ans">whom</span>。「そのうち2人は男の子」という非制限用法。' },
+  { id: 'R13', s: 'The pen ___ I\'m writing with is hers.', c: ['which','with which','whose','when'], a: 1,
+    why: '前置詞 with + 関係代名詞 which をまとめた形。<span class="ans">with which</span>（= which ... with）。formal な書き方。' },
+  { id: 'R14', s: '___ comes first will get a prize.', c: ['Who','Whoever','Whatever','Whichever'], a: 1,
+    why: '文の主語になる名詞節「最初に来た人」= the one who。<span class="ans">Whoever</span>（= anyone who）。' },
+  { id: 'R15', s: 'Choose ___ you prefer, red or blue.', c: ['whoever','whatever','whichever','however'], a: 2,
+    why: '「赤か青の<b>限定された選択肢</b>から、好きな方を」。範囲限定なので <span class="ans">whichever</span>。whatever は無制限。' }
+];
+
+const TYPE = [
+  { id: 'T1', s: 'The boy ___ won the prize is here.', hint: '関係代名詞・人・主格（1語）', ans: ['who','that'], canon: 'who',
+    why: '主格の関係代名詞。<span class="ans">who</span>（または <span class="ans">that</span>）。制限用法なので that も可。' },
+  { id: 'T2', s: 'This is the place ___ I work.', hint: '関係副詞（1語）', ans: ['where'], canon: 'where',
+    why: '場所の関係副詞 <span class="ans">where</span>（= at which）。後ろに完全な文が続くのが目印。' },
+  { id: 'T3', s: 'I\'ll do ___ you say.', hint: '複合関係代名詞「何でも」（1語）', ans: ['whatever'], canon: 'whatever',
+    why: '「あなたが言うことは何でも」= anything that。<span class="ans">whatever</span>。' },
+  { id: 'T4', s: '___ you go, I\'ll follow.', hint: '複合関係副詞「どこへでも」（1語）', ans: ['wherever'], canon: 'Wherever',
+    why: '副詞節を作る譲歩・場所の <span class="ans">Wherever</span>（= No matter where / to any place）。文頭なので大文字。' },
+  { id: 'T5', s: 'The man ___ wallet I found is here.', hint: '関係代名詞・所有格（1語）', ans: ['whose'], canon: 'whose',
+    why: '直後に名詞 wallet。所有関係を示す <span class="ans">whose</span>。「その財布を私が見つけた男性」。' },
+  { id: 'T6', s: '___ comes will be welcomed.', hint: '複合関係代名詞「誰でも」（1語）', ans: ['whoever'], canon: 'Whoever',
+    why: '主語の位置で「来る人は誰でも」= anyone who。<span class="ans">Whoever</span>。文頭なので大文字。' }
+];
+
+/* ═══════════════════════════════════════════
+   STATE & STORAGE
+═══════════════════════════════════════════ */
+
+const STORAGE_KEY = 'pre1_grammar_c2_v1';
+
+const DEFAULT_STATE = () => ({
+  phase: 'learn',
+  learnIndex: 0,
+  recallIndex: 0,
+  recallCorrect: 0,
+  typeIndex: 0,
+  typeCorrect: 0,
+  mixQueue: [],
+  mixIndex: 0,
+  mixCorrect: 0,
+  mixTotal: 0,
+  items: {},
+  progress: {
+    learn: false,
+    recall: false,
+    type: false,
+    mix: false
+  }
+});
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return DEFAULT_STATE();
+    const parsed = JSON.parse(raw);
+    // Ensure default keys exist after schema additions
+    const def = DEFAULT_STATE();
+    return Object.assign(def, parsed, {
+      progress: Object.assign(def.progress, parsed.progress || {}),
+      items: parsed.items || {}
+    });
+  } catch (e) {
+    return DEFAULT_STATE();
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {}
+}
+
+function getItem(id) {
+  if (!state.items[id]) {
+    state.items[id] = { box: 1, correct: 0, wrong: 0, lastConf: null, calibHistory: [] };
+  }
+  return state.items[id];
+}
+
+function updateBox(id, isCorrect) {
+  const it = getItem(id);
+  if (isCorrect) {
+    it.correct++;
+    it.box = Math.min(5, it.box + 1);
+  } else {
+    it.wrong++;
+    it.box = 1;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   HAPTICS
+═══════════════════════════════════════════ */
+
+function haptic(kind) {
+  if (!navigator.vibrate) return;
+  switch (kind) {
+    case 'select':  navigator.vibrate(8); break;
+    case 'confirm': navigator.vibrate([8, 6, 14]); break;
+    case 'error':   navigator.vibrate([28, 40, 28]); break;
+    case 'tap':     navigator.vibrate(5); break;
+    case 'next':    navigator.vibrate(10); break;
+    default:        navigator.vibrate(8);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   DOM REFS & RENDERING
+═══════════════════════════════════════════ */
+
+const $main = document.getElementById('main');
+const $cta = document.getElementById('ctaBtn');
+const $phases = document.getElementById('phases');
+
+let current = { // ephemeral per-question state
+  confidence: null,
+  answered: false,
+  correct: false
+};
+
+function setCTA(label, onClick, disabled = false) {
+  $cta.textContent = label;
+  $cta.disabled = disabled;
+  $cta.onclick = () => {
+    if (disabled) return;
+    haptic('next');
+    onClick && onClick();
+  };
+}
+
+function boxRow(level) {
+  let html = '<div class="box-row">';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="seg ${i <= level ? 'on' : ''}"></span>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderPhases() {
+  [...$phases.children].forEach(btn => {
+    const p = btn.dataset.phase;
+    btn.classList.toggle('active', p === state.phase);
+    btn.classList.toggle('done', state.progress[p]);
+  });
+}
+
+function switchPhase(phase) {
+  if (state.phase === phase) return;
+  state.phase = phase;
+  // reset per-phase counters where reasonable
+  if (phase === 'recall' && !state.progress.recall) {
+    state.recallIndex = 0;
+    state.recallCorrect = 0;
+  } else if (phase === 'type' && !state.progress.type) {
+    state.typeIndex = 0;
+    state.typeCorrect = 0;
+  } else if (phase === 'mix' && !state.progress.mix) {
+    buildMixQueue();
+  }
+  saveState();
+  render();
+}
+
+$phases.addEventListener('click', e => {
+  const btn = e.target.closest('.phase-tab');
+  if (!btn) return;
+  haptic('tap');
+  switchPhase(btn.dataset.phase);
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('進捗を全てリセットしますか？')) return;
+  state = DEFAULT_STATE();
+  saveState();
+  render();
+});
+
+/* ═══════════════════════════════════════════
+   CONFIDENCE CALIBRATION
+═══════════════════════════════════════════ */
+
+function calibrationMessage(conf, correct) {
+  if (conf === 'high' && correct)   return { tag: '校正◎', msg: '高い自信で正解。よく定着しています。' };
+  if (conf === 'high' && !correct)  return { tag: '過信注意', msg: '高い自信で不正解。<b>誤った前提</b>を見直してください。' };
+  if (conf === 'med'  && correct)   return { tag: '安定', msg: 'コンスタントに正解できます。' };
+  if (conf === 'med'  && !correct)  return { tag: '要復習', msg: '中程度の自信で不正解。次回も同じ箱で出題されます。' };
+  if (conf === 'low'  && correct)   return { tag: '謙虚すぎ', msg: '低い自信で正解。理屈を理解できているので<b>自信を持って</b>OK。' };
+  if (conf === 'low'  && !correct)  return { tag: '校正OK', msg: '低い自信で不正解。自己評価は正確、次は概念から復習を。' };
+  return null;
+}
+
+function confidenceCardHTML() {
+  return `
+    <div class="confidence">
+      <div class="label">自信度</div>
+      <div class="conf-row" id="confRow">
+        <button class="conf-btn" data-conf="low">低</button>
+        <button class="conf-btn" data-conf="med">中</button>
+        <button class="conf-btn" data-conf="high">高</button>
+      </div>
+    </div>`;
+}
+
+function attachConfHandlers() {
+  const row = document.getElementById('confRow');
+  if (!row) return;
+  row.addEventListener('click', e => {
+    const btn = e.target.closest('.conf-btn');
+    if (!btn) return;
+    haptic('select');
+    [...row.children].forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    current.confidence = btn.dataset.conf;
+    refreshCTAState();
+  });
+}
+
+/* ═══════════════════════════════════════════
+   PHASE: LEARN
+═══════════════════════════════════════════ */
+
+function renderLearn() {
+  const idx = state.learnIndex;
+  const card = LEARN[idx];
+  if (!card) { // finished
+    state.progress.learn = true;
+    saveState();
+    renderLearnComplete();
+    return;
+  }
+
+  let pager = '<div class="card-pager">';
+  for (let i = 0; i < LEARN.length; i++) {
+    pager += `<span class="pip ${i === idx ? 'active' : i < idx ? 'done' : ''}"></span>`;
+  }
+  pager += '</div>';
+
+  let examplesHTML = '';
+  card.examples.forEach(ex => {
+    examplesHTML += `<div class="ex">${ex.en}<em>${ex.ja}</em></div>`;
+  });
+
+  $main.innerHTML = `
+    ${pager}
+    <div class="card learn-card">
+      <div class="core-label">CARD ${idx + 1} / ${LEARN.length}</div>
+      <h2>${card.title}</h2>
+      <div class="core">${card.core}</div>
+      <div class="ex-label">Examples</div>
+      ${examplesHTML}
+      <div class="tip">${card.tip}</div>
+    </div>
+  `;
+
+  const label = idx === LEARN.length - 1 ? 'Recall を開始' : '次のカード →';
+  setCTA(label, () => {
+    state.learnIndex++;
+    saveState();
+    if (state.learnIndex >= LEARN.length) {
+      state.progress.learn = true;
+      state.phase = 'recall';
+      state.learnIndex = 0; // allow re-review
+      saveState();
+    }
+    render();
+  });
+}
+
+function renderLearnComplete() {
+  $main.innerHTML = `
+    <div class="done-banner">
+      <div class="icon">📚</div>
+      <div class="title">Learn 完了</div>
+      <div class="sub">概念の確認が終わりました。Recall に進みましょう。</div>
+    </div>`;
+  setCTA('Recall に進む →', () => {
+    state.phase = 'recall';
+    state.learnIndex = 0;
+    saveState();
+    render();
+  });
+}
+
+/* ═══════════════════════════════════════════
+   PHASE: RECALL (4-choice)
+═══════════════════════════════════════════ */
+
+function renderRecall() {
+  const idx = state.recallIndex;
+  if (idx >= RECALL.length) {
+    state.progress.recall = true;
+    saveState();
+    renderPhaseComplete('recall');
+    return;
+  }
+  const q = RECALL[idx];
+  const item = getItem(q.id);
+
+  current.confidence = null;
+  current.answered = false;
+  current.correct = false;
+
+  const sentence = q.s.replace('___', '<span class="blank">?</span>');
+  let choices = '<div class="choices">';
+  q.c.forEach((opt, i) => {
+    choices += `<button class="choice" data-i="${i}"><span class="key">${'ABCD'[i]}</span>${opt}</button>`;
+  });
+  choices += '</div>';
+
+  $main.innerHTML = `
+    <div class="card">
+      <div class="q-meta">
+        <div class="q-num">Q ${idx + 1} / ${RECALL.length}</div>
+        <div class="box-pill"><span class="label">Box</span>${boxRow(item.box)}</div>
+      </div>
+      <div class="q-text">${sentence}</div>
+      ${confidenceCardHTML()}
+      ${choices}
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <div class="queue-info">正解 <b>${state.recallCorrect}</b> / ${RECALL.length}</div>`;
+
+  attachConfHandlers();
+  $main.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', () => onChoiceClick(btn, q));
+  });
+
+  refreshCTAState();
+}
+
+function onChoiceClick(btn, q) {
+  if (current.answered) return;
+  if (!current.confidence) {
+    haptic('error');
+    // visual nudge
+    const row = document.getElementById('confRow');
+    if (row) {
+      row.style.animation = 'none';
+      void row.offsetWidth;
+      row.style.animation = 'slideUp 0.25s';
+    }
+    return;
+  }
+  current.answered = true;
+  const picked = +btn.dataset.i;
+  const correct = picked === q.a;
+  current.correct = correct;
+  updateBox(q.id, correct);
+  getItem(q.id).lastConf = current.confidence;
+
+  if (correct) {
+    state.recallCorrect++;
+    haptic('confirm');
+  } else {
+    haptic('error');
+  }
+
+  $main.querySelectorAll('.choice').forEach((c, i) => {
+    c.classList.add('locked');
+    if (i === q.a) c.classList.add('correct');
+    else if (i === picked) c.classList.add('wrong');
+    else c.classList.add('dim');
+  });
+
+  showFeedback(q.why, correct);
+  saveState();
+  refreshCTAState();
+}
+
+function showFeedback(why, correct) {
+  const fb = document.getElementById('feedback');
+  if (!fb) return;
+  const calib = calibrationMessage(current.confidence, correct);
+  const calibHTML = calib ? `<div class="calib"><b>${calib.tag}:</b> ${calib.msg}</div>` : '';
+  fb.className = `feedback show ${correct ? 'correct' : 'wrong'}`;
+  fb.innerHTML = `
+    <div class="verdict">${correct ? '正解' : '不正解'}</div>
+    <div class="why">${why}</div>
+    ${calibHTML}
+  `;
+  // smooth scroll feedback into view
+  setTimeout(() => fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function refreshCTAState() {
+  if (state.phase === 'recall' || state.phase === 'mix') {
+    if (!current.answered) {
+      const canAnswer = current.confidence !== null;
+      setCTA(canAnswer ? '解答を選択してください' : '自信度を選んで開始', null, true);
+    } else {
+      setCTA('次の問題 →', advanceQuestion);
+    }
+  } else if (state.phase === 'type') {
+    if (!current.answered) {
+      const inp = document.getElementById('typeInput');
+      const hasText = inp && inp.value.trim().length > 0;
+      const canSubmit = hasText && current.confidence !== null;
+      setCTA('解答する', submitTypeAnswer, !canSubmit);
+    } else {
+      setCTA('次の問題 →', advanceQuestion);
+    }
+  }
+}
+
+function advanceQuestion() {
+  if (state.phase === 'recall') {
+    state.recallIndex++;
+    saveState();
+    render();
+  } else if (state.phase === 'type') {
+    state.typeIndex++;
+    saveState();
+    render();
+  } else if (state.phase === 'mix') {
+    const q = state.mixQueue[state.mixIndex];
+    state.mixTotal++;
+    if (current.correct) {
+      state.mixCorrect++;
+      state.mixIndex++;
+    } else {
+      // push to back of queue, cap to avoid infinite loop
+      const repeats = (q._reps || 0) + 1;
+      q._reps = repeats;
+      state.mixIndex++;
+      if (repeats < 2) state.mixQueue.push(q);
+    }
+    saveState();
+    render();
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PHASE: TYPE (input)
+═══════════════════════════════════════════ */
+
+function renderType() {
+  const idx = state.typeIndex;
+  if (idx >= TYPE.length) {
+    state.progress.type = true;
+    saveState();
+    renderPhaseComplete('type');
+    return;
+  }
+  const q = TYPE[idx];
+  const item = getItem(q.id);
+
+  current.confidence = null;
+  current.answered = false;
+  current.correct = false;
+
+  const sentence = q.s.replace('___', '<span class="blank">?</span>');
+
+  $main.innerHTML = `
+    <div class="card">
+      <div class="q-meta">
+        <div class="q-num">T ${idx + 1} / ${TYPE.length}</div>
+        <div class="box-pill"><span class="label">Box</span>${boxRow(item.box)}</div>
+      </div>
+      <div class="q-text">${sentence}</div>
+      <div class="q-hint">ヒント: ${q.hint}</div>
+      ${confidenceCardHTML()}
+      <input id="typeInput" class="type-input" type="text"
+             autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+             placeholder="ここに入力" />
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <div class="queue-info">正解 <b>${state.typeCorrect}</b> / ${TYPE.length}</div>`;
+
+  attachConfHandlers();
+  const inp = document.getElementById('typeInput');
+  inp.addEventListener('input', refreshCTAState);
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (!current.answered) submitTypeAnswer();
+      else advanceQuestion();
+    }
+  });
+  refreshCTAState();
+}
+
+function submitTypeAnswer() {
+  if (current.answered) return;
+  const q = state.phase === 'mix' ? state.mixQueue[state.mixIndex] : TYPE[state.typeIndex];
+  const inp = document.getElementById('typeInput');
+  if (!inp) return;
+  const val = inp.value.trim().toLowerCase().replace(/\.$/, '');
+  if (!val) return;
+  if (!current.confidence) {
+    haptic('error');
+    return;
+  }
+
+  const correct = q.ans.some(a => a.toLowerCase() === val);
+  current.answered = true;
+  current.correct = correct;
+  updateBox(q.id, correct);
+  getItem(q.id).lastConf = current.confidence;
+
+  if (correct) {
+    if (state.phase === 'type') state.typeCorrect++;
+    haptic('confirm');
+    inp.classList.add('correct');
+  } else {
+    haptic('error');
+    inp.classList.add('wrong');
+  }
+  inp.disabled = true;
+
+  // Replace ? with answer in question text
+  const blank = $main.querySelector('.q-text .blank');
+  if (blank) blank.textContent = q.canon;
+
+  const ansList = q.ans.map(a => `<span class="ans">${a}</span>`).join(' / ');
+  const whyFull = correct
+    ? q.why
+    : `${q.why}<br><span style="color:var(--text-2);font-size:12px;display:block;margin-top:6px">あなたの答え: <span class="ans">${inp.value.trim() || '(空欄)'}</span></span>`;
+  showFeedback(whyFull, correct);
+  saveState();
+  refreshCTAState();
+}
+
+/* ═══════════════════════════════════════════
+   PHASE: COMPLETION / RESULTS
+═══════════════════════════════════════════ */
+
+function renderPhaseComplete(phase) {
+  let correct, total, nextLabel, nextPhase, icon, title;
+  if (phase === 'recall') {
+    correct = state.recallCorrect;
+    total = RECALL.length;
+    nextLabel = 'Type に進む →';
+    nextPhase = 'type';
+    icon = '🎯';
+    title = 'Recall 完了';
+  } else if (phase === 'type') {
+    correct = state.typeCorrect;
+    total = TYPE.length;
+    nextLabel = 'Mix を開始 →';
+    nextPhase = 'mix';
+    icon = '✍️';
+    title = 'Type 完了';
+  } else {
+    correct = state.mixCorrect;
+    total = state.mixTotal;
+    nextLabel = '最初からやり直す';
+    nextPhase = 'reset';
+    icon = '🎉';
+    title = '全フェーズ完了';
+  }
+  const pct = total ? Math.round((correct / total) * 100) : 0;
+
+  $main.innerHTML = `
+    <div class="done-banner">
+      <div class="icon">${icon}</div>
+      <div class="title">${title}</div>
+      <div class="sub">${phase === 'mix' ? '全フェーズを通過しました。本番までに反復しましょう。' : '結果は下記の通り。'}</div>
+      <div class="stats-grid">
+        <div class="stat"><div class="val">${correct}</div><div class="lab">正解</div></div>
+        <div class="stat"><div class="val">${total}</div><div class="lab">問題</div></div>
+        <div class="stat"><div class="val">${pct}%</div><div class="lab">正答率</div></div>
+      </div>
+    </div>
+    ${renderBoxOverview()}
+  `;
+  setCTA(nextLabel, () => {
+    if (nextPhase === 'reset') {
+      // soft reset progress so user can re-run cycle (keep box history)
+      state.phase = 'learn';
+      state.learnIndex = 0;
+      state.recallIndex = 0;
+      state.recallCorrect = 0;
+      state.typeIndex = 0;
+      state.typeCorrect = 0;
+      state.mixIndex = 0;
+      state.mixCorrect = 0;
+      state.mixTotal = 0;
+      state.mixQueue = [];
+      state.progress = { learn: false, recall: false, type: false, mix: false };
+      saveState();
+    } else {
+      state.phase = nextPhase;
+      if (nextPhase === 'mix') buildMixQueue();
+      saveState();
+    }
+    render();
+  });
+}
+
+function renderBoxOverview() {
+  // count items in each box
+  const all = [...RECALL, ...TYPE];
+  const dist = [0, 0, 0, 0, 0]; // index 0 = box 1
+  all.forEach(q => {
+    const it = getItem(q.id);
+    dist[Math.max(0, Math.min(4, it.box - 1))]++;
+  });
+  const total = all.length;
+  const colors = ['#ff453a', '#ff9f0a', '#ffd60a', '#30d158', '#0a84ff'];
+  let bars = '<div class="dist">';
+  for (let i = 0; i < 5; i++) {
+    const w = total ? (dist[i] / total) * 100 : 0;
+    if (w === 0) continue;
+    bars += `<div style="flex:${dist[i]}; background:${colors[i]}">${dist[i] || ''}</div>`;
+  }
+  bars += '</div>';
+
+  return `
+    <div class="box-overview">
+      <div class="head-row">
+        <div class="title">Leitner 箱の分布</div>
+        <div class="sub">SRS</div>
+      </div>
+      ${bars}
+      <div class="legend">
+        <span style="color:#ff453a">1 弱</span>
+        <span>2</span>
+        <span style="color:#ffd60a">3</span>
+        <span>4</span>
+        <span style="color:#0a84ff">5 強</span>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════
+   PHASE: MIX
+═══════════════════════════════════════════ */
+
+function buildMixQueue() {
+  // priority: items with box < 3 first, then shuffled rest
+  const allItems = [];
+  RECALL.forEach(q => allItems.push({ kind: 'mc', q }));
+  TYPE.forEach(q => allItems.push({ kind: 'type', q }));
+  // attach box for sort
+  allItems.forEach(o => { o._box = getItem(o.q.id).box; });
+  // shuffle within box groups
+  shuffle(allItems);
+  allItems.sort((a, b) => a._box - b._box);
+  state.mixQueue = allItems.map(o => ({ kind: o.kind, ...o.q }));
+  state.mixIndex = 0;
+  state.mixCorrect = 0;
+  state.mixTotal = 0;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function renderMix() {
+  if (!state.mixQueue.length) buildMixQueue();
+  if (state.mixIndex >= state.mixQueue.length) {
+    state.progress.mix = true;
+    saveState();
+    renderPhaseComplete('mix');
+    return;
+  }
+  const q = state.mixQueue[state.mixIndex];
+  const item = getItem(q.id);
+
+  current.confidence = null;
+  current.answered = false;
+  current.correct = false;
+
+  const sentence = q.s.replace('___', '<span class="blank">?</span>');
+  const queueLeft = state.mixQueue.length - state.mixIndex;
+
+  let body;
+  if (q.kind === 'mc') {
+    let choices = '<div class="choices">';
+    q.c.forEach((opt, i) => {
+      choices += `<button class="choice" data-i="${i}"><span class="key">${'ABCD'[i]}</span>${opt}</button>`;
+    });
+    choices += '</div>';
+    body = `
+      <div class="q-text">${sentence}</div>
+      ${confidenceCardHTML()}
+      ${choices}
+      <div class="feedback" id="feedback"></div>`;
+  } else {
+    body = `
+      <div class="q-text">${sentence}</div>
+      <div class="q-hint">ヒント: ${q.hint}</div>
+      ${confidenceCardHTML()}
+      <input id="typeInput" class="type-input" type="text"
+             autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+             placeholder="ここに入力" />
+      <div class="feedback" id="feedback"></div>`;
+  }
+
+  $main.innerHTML = `
+    <div class="card">
+      <div class="q-meta">
+        <div class="q-num">Mix · ${q.kind === 'mc' ? '4択' : '入力'}</div>
+        <div class="box-pill"><span class="label">Box</span>${boxRow(item.box)}</div>
+      </div>
+      ${body}
+    </div>
+    <div class="queue-info">残り <b>${queueLeft}</b> 問 · 正答 ${state.mixCorrect} / ${state.mixTotal || 0}</div>`;
+
+  attachConfHandlers();
+  if (q.kind === 'mc') {
+    $main.querySelectorAll('.choice').forEach(btn => {
+      btn.addEventListener('click', () => onChoiceClick(btn, q));
+    });
+  } else {
+    const inp = document.getElementById('typeInput');
+    inp.addEventListener('input', refreshCTAState);
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!current.answered) submitTypeAnswer();
+        else advanceQuestion();
+      }
+    });
+  }
+  refreshCTAState();
+}
+
+/* ═══════════════════════════════════════════
+   ROUTER
+═══════════════════════════════════════════ */
+
+function render() {
+  renderPhases();
+  current = { confidence: null, answered: false, correct: false };
+  switch (state.phase) {
+    case 'learn':  renderLearn(); break;
+    case 'recall': renderRecall(); break;
+    case 'type':   renderType(); break;
+    case 'mix':    renderMix(); break;
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
