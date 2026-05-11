@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<title>仮定法・倒置 — 英検準1級</title>
+<style>
+:root {
+  --bg: #000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --surface-3: #3a3a3c;
+  --hairline: rgba(255,255,255,0.08);
+  --text: #fff;
+  --text-2: #ebebf5;
+  --text-3: rgba(235,235,245,0.6);
+  --text-4: rgba(235,235,245,0.3);
+  --accent: #0a84ff;
+  --c1: #bf5af2;
+  --green: #30d158;
+  --red: #ff453a;
+  --orange: #ff9f0a;
+  --yellow: #ffd60a;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body {
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+.app {
+  max-width: 520px;
+  min-width: 280px;
+  margin: 0 auto;
+  padding: 20px 20px 100px;
+  position: relative;
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 4px 0;
+}
+
+.cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 8px;
+  background: rgba(191,90,242,0.15);
+  color: var(--c1);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.cat-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c1);
+}
+
+.reset-btn {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: opacity 0.15s;
+}
+.reset-btn:active { opacity: 0.5; }
+
+/* ===== Progress ===== */
+.progress-rail {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.progress-seg {
+  flex: 1;
+  height: 3px;
+  background: var(--surface-2);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-seg.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--c1);
+  border-radius: 2px;
+  animation: progress-fill 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+
+.progress-seg.done {
+  background: var(--c1);
+}
+
+@keyframes progress-fill {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* ===== Stage Title ===== */
+.stage-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.stage-sub {
+  font-size: 15px;
+  color: var(--text-3);
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 0.5px solid var(--hairline);
+}
+
+.card-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c1);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.card-core {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  background: var(--surface-2);
+  border-radius: 12px;
+  border-left: 3px solid var(--c1);
+}
+
+.example-list {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.example-list li {
+  font-size: 15px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--hairline);
+}
+
+.example-list li:last-child {
+  border-bottom: none;
+}
+
+.ex-en {
+  font-weight: 500;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.ex-ja {
+  font-size: 13px;
+  color: var(--text-3);
+  letter-spacing: 0.01em;
+}
+
+.tip {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(10,132,255,0.1);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.tip::before {
+  content: '💡';
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.1s, opacity 0.15s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+.btn-c1 { background: var(--c1); }
+.btn-ghost {
+  background: var(--surface);
+  color: var(--text);
+  border: 0.5px solid var(--hairline);
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.btn-row .btn { flex: 1; }
+
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ===== Question ===== */
+.q-counter {
+  font-size: 13px;
+  color: var(--text-3);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+
+.q-stem {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin-bottom: 22px;
+  padding: 22px 20px;
+  background: var(--surface);
+  border-radius: 16px;
+  border: 0.5px solid var(--hairline);
+}
+
+.blank {
+  display: inline-block;
+  min-width: 60px;
+  border-bottom: 2px solid var(--c1);
+  margin: 0 3px;
+  text-align: center;
+  color: var(--c1);
+  font-weight: 700;
+}
+
+/* Confidence selector */
+.conf-wrap {
+  margin-bottom: 20px;
+}
+
+.conf-label {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-bottom: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.conf-row {
+  display: flex;
+  gap: 8px;
+}
+
+.conf-btn {
+  flex: 1;
+  padding: 10px 8px;
+  background: var(--surface);
+  border: 0.5px solid var(--hairline);
+  border-radius: 11px;
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.conf-btn.selected {
+  background: var(--surface-3);
+  border-color: var(--c1);
+  color: #fff;
+}
+
+/* Choices */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.choice {
+  text-align: left;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 0.5px solid var(--hairline);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: -0.01em;
+}
+
+.choice:active {
+  transform: scale(0.985);
+}
+
+.choice-key {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.choice.correct {
+  background: rgba(48,209,88,0.12);
+  border-color: var(--green);
+}
+.choice.correct .choice-key {
+  background: var(--green);
+  color: #000;
+}
+
+.choice.wrong {
+  background: rgba(255,69,58,0.12);
+  border-color: var(--red);
+}
+.choice.wrong .choice-key {
+  background: var(--red);
+  color: #fff;
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+/* Type input */
+.type-wrap {
+  margin-bottom: 20px;
+}
+
+.type-input {
+  width: 100%;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  text-align: center;
+  -webkit-appearance: none;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.type-input:focus {
+  border-color: var(--c1);
+}
+
+.type-input.correct {
+  border-color: var(--green);
+  background: rgba(48,209,88,0.08);
+}
+.type-input.wrong {
+  border-color: var(--red);
+  background: rgba(255,69,58,0.08);
+}
+
+/* Feedback */
+.feedback {
+  padding: 16px 18px;
+  background: var(--surface);
+  border-radius: 14px;
+  margin-bottom: 16px;
+  border: 0.5px solid var(--hairline);
+  animation: feedback-in 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+
+@keyframes feedback-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fb-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.fb-head.ok { color: var(--green); }
+.fb-head.ng { color: var(--red); }
+
+.fb-answer {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.fb-why {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.fb-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 4px 10px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+/* Results */
+.results-hero {
+  text-align: center;
+  padding: 30px 0 28px;
+}
+
+.results-score {
+  font-size: 72px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, var(--c1) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.results-pct {
+  font-size: 17px;
+  color: var(--text-3);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.metric {
+  padding: 16px 16px;
+  background: var(--surface);
+  border-radius: 14px;
+  border: 0.5px solid var(--hairline);
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.metric-val {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.calibration {
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(191,90,242,0.12), rgba(10,132,255,0.08));
+  border: 0.5px solid rgba(191,90,242,0.3);
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.calibration-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c1);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.calibration-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.calibration-row span:first-child {
+  color: var(--text-2);
+}
+
+.calibration-row span:last-child {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cal-good { color: var(--green); }
+.cal-bad { color: var(--orange); }
+
+/* Leitner display */
+.leitner-wrap {
+  padding: 16px 18px;
+  background: var(--surface);
+  border-radius: 14px;
+  border: 0.5px solid var(--hairline);
+  margin-bottom: 16px;
+}
+
+.leitner-title {
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.leitner-bars {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  height: 60px;
+}
+
+.leitner-bar {
+  flex: 1;
+  background: var(--surface-3);
+  border-radius: 6px 6px 2px 2px;
+  position: relative;
+  min-height: 6px;
+  transition: height 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+
+.leitner-bar[data-box="1"] { background: var(--red); }
+.leitner-bar[data-box="2"] { background: var(--orange); }
+.leitner-bar[data-box="3"] { background: var(--yellow); }
+.leitner-bar[data-box="4"] { background: #64d2ff; }
+.leitner-bar[data-box="5"] { background: var(--green); }
+
+.leitner-labels {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.leitner-label {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+/* Welcome */
+.welcome {
+  padding: 30px 0;
+}
+
+.welcome-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--c1), #9747ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.04em;
+  box-shadow: 0 10px 30px rgba(191,90,242,0.3);
+}
+
+.welcome-title {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+
+.welcome-desc {
+  font-size: 17px;
+  color: var(--text-3);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.feature-row {
+  display: flex;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-radius: 14px;
+  border: 0.5px solid var(--hairline);
+  align-items: center;
+}
+
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.fi-1 { background: rgba(191,90,242,0.18); }
+.fi-2 { background: rgba(10,132,255,0.18); }
+.fi-3 { background: rgba(48,209,88,0.18); }
+.fi-4 { background: rgba(255,159,10,0.18); }
+
+.feature-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.feature-sub {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 1px;
+}
+
+/* hidden */
+.hidden { display: none !important; }
+
+.fade-in {
+  animation: fade-in 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* dot indicator */
+.dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+  margin: 0 6px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div id="root"></div>
+</div>
+
+<script>
+'use strict';
+
+/* ===========================================================
+   DATA
+=========================================================== */
+const LEARN_CARDS = [
+  {
+    eyebrow: 'Card 1 / 3',
+    title: 'if 省略の倒置（最頻出）',
+    core: 'if を消して主語と助動詞を倒置。Should / Were / Had が文頭。フォーマル＆強調。',
+    examples: [
+      { en: 'Should you need help, call me.', ja: '助けが必要なら呼んで。（= If you should need）' },
+      { en: 'Were I rich, I\'d travel.', ja: '裕福だったら旅行する。（= If I were）' },
+      { en: 'Had I known, I would have come.', ja: '知っていたら来たのに。（= If I had known）' }
+    ],
+    tip: '準1級では Had + S + Vp.p. が最頻出。Had it not been for ~（〜がなければ）の形でよく出る。'
+  },
+  {
+    eyebrow: 'Card 2 / 3',
+    title: '仮定法過去 vs 過去完了',
+    core: '現在の事実に反する＝過去形 / 過去の事実に反する＝過去完了',
+    examples: [
+      { en: 'If I were you, I would refuse.', ja: '現在の仮定 → were' },
+      { en: 'If I had studied, I would have passed.', ja: '過去の仮定 → had + Vp.p.' }
+    ],
+    tip: 'If S V過去形 → would V原形 / If S had Vp.p. → would have Vp.p. のセットで覚える。'
+  },
+  {
+    eyebrow: 'Card 3 / 3',
+    title: 'wish と as if',
+    core: 'I wish + 仮定法 = 現実と違う願望。as if + 仮定法 = 実際は違う。',
+    examples: [
+      { en: 'I wish I had more time.', ja: '今もっと時間が欲しい' },
+      { en: 'I wish I had studied harder.', ja: '過去の後悔' },
+      { en: 'He talks as if he were an expert.', ja: '実際は専門家じゃない' }
+    ],
+    tip: 'wish の後ろの時制は1段階前にズラす。'
+  }
+];
+
+const RECALL_Q = [
+  { id:'r1',  stem:'___ you need help, please let me know.', choices:['If','Should','Were','Had'], correct:1, why:'if省略倒置: Should + S + V。"Should you need" = "If you should need"。' },
+  { id:'r2',  stem:'___ I rich, I would buy a yacht.', choices:['Should','Were','Had','If'], correct:1, why:'Were I = If I were。仮定法過去のbe動詞は常にwere、倒置のとき文頭に。' },
+  { id:'r3',  stem:'___ I known earlier, I would have come.', choices:['Should','Were','Had','Would'], correct:2, why:'Had I known = If I had known。過去完了の倒置（最頻出パターン）。' },
+  { id:'r4',  stem:'If I ___ taller, I would join the team.', choices:['am','was','were','had been'], correct:2, why:'仮定法過去のbe動詞は常にwere（主語が I/he/she でも）。' },
+  { id:'r5',  stem:'If she ___ harder, she would have passed.', choices:['studied','had studied','studies','would study'], correct:1, why:'仮定法過去完了: If + S + had Vp.p. → would have Vp.p.' },
+  { id:'r6',  stem:'I wish I ___ more time.', choices:['have','had','will have','have had'], correct:1, why:'wish + 仮定法過去（現在の願望は1段階前にズラす）。' },
+  { id:'r7',  stem:'I wish I ___ harder when I was young.', choices:['studied','had studied','study','would study'], correct:1, why:'wish + 過去完了。過去の後悔（when I was young が手がかり）。' },
+  { id:'r8',  stem:'He talks ___ he were an expert.', choices:['even if','as though','whereas','unless'], correct:1, why:'as if / as though + 仮定法 = 実際は違うことを表す。' },
+  { id:'r9',  stem:'___ it not been for your help, I would have failed.', choices:['If','Were','Had','Should'], correct:2, why:'Had it not been for = If it had not been for（〜がなかったら）。準1級頻出の決まり文句。' },
+  { id:'r10', stem:'Without your support, I ___ this far.', choices:['wouldn\'t come','wouldn\'t have come','didn\'t come','won\'t come'], correct:1, why:'Without + 過去の仮定 → would not have Vp.p.（過去の話なので完了形）。' },
+  { id:'r11', stem:'___ I you, I would apologize first.', choices:['If','Should','Were','Had'], correct:2, why:'Were I = If I were。倒置で if が消える。' },
+  { id:'r12', stem:'If I ___ been there, I could have stopped it.', choices:['have','had','were','was'], correct:1, why:'仮定法過去完了: had + been。could have Vp.p. とのセット。' },
+  { id:'r13', stem:'It\'s time you ___ to bed.', choices:['go','went','have gone','would go'], correct:1, why:'It\'s time + S + 過去形（仮定法）= 「もう〜する時間だ（まだしてない）」' },
+  { id:'r14', stem:'But for your advice, I ___ the wrong choice.', choices:['made','would make','would have made','had made'], correct:2, why:'But for（過去の話）→ would have Vp.p.（〜がなかったら…していた）。' },
+  { id:'r15', stem:'Should anyone call, ___ a message.', choices:['take','took','taking','to take'], correct:0, why:'Should節は条件、主節は命令文（動詞の原形）。' },
+  { id:'r16', stem:'"Had I known" の書き換えは？', choices:['If I know','If I knew','If I had known','Should I know'], correct:2, why:'Had + S + Vp.p. = If + S + had Vp.p.（過去完了の倒置）。' }
+];
+
+const TYPE_Q = [
+  { id:'t1', stem:'___ I you, I would accept it.', hint:'1語、倒置', answer:'were', why:'Were I = If I were。仮定法過去の倒置。' },
+  { id:'t2', stem:'___ you need help, call me.', hint:'1語、倒置', answer:'should', why:'Should you need = If you should need。未来仮定の倒置。' },
+  { id:'t3', stem:'___ I known, I would have helped.', hint:'1語、倒置', answer:'had', why:'Had I known = If I had known。過去完了の倒置。' },
+  { id:'t4', stem:'If I ___ you, I\'d refuse.', hint:'仮定法過去のbe動詞 1語', answer:'were', why:'仮定法過去のbe動詞は常に were（人称問わず）。' },
+  { id:'t5', stem:'I wish I ___ more money.', hint:'1語、現在の願望', answer:'had', why:'wish + 仮定法過去。現在のことは1段階前にズラす。' },
+  { id:'t6', stem:'If she ___ studied, she would have passed.', hint:'1語', answer:'had', why:'仮定法過去完了: If + S + had + Vp.p.' }
+];
+
+const STORAGE_KEY = 'pre1_grammar_c1_v1';
+
+/* ===========================================================
+   STATE
+=========================================================== */
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return defaultState();
+}
+
+function defaultState() {
+  const boxes = {};
+  [...RECALL_Q, ...TYPE_Q].forEach(q => boxes[q.id] = 1);
+  return {
+    stage: 'welcome',          // welcome | learn | recall | type | mix | results
+    learnIdx: 0,
+    recallIdx: 0,
+    typeIdx: 0,
+    mixIdx: 0,
+    mixQueue: [],              // shuffled ids + wrong-again
+    boxes,                     // id -> 1..5
+    sessionAnswers: [],        // {id, type, correct, confidence}
+    totalAttempts: 0,
+    totalCorrect: 0
+  };
+}
+
+let state = loadState();
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) {}
+}
+
+function resetAll() {
+  if (!confirm('全進捗をリセットする？')) return;
+  state = defaultState();
+  saveState();
+  render();
+}
+
+/* ===========================================================
+   HAPTICS
+=========================================================== */
+function haptic(pattern) {
+  if (!navigator.vibrate) return;
+  try { navigator.vibrate(pattern); } catch(e) {}
+}
+const hapticTap     = () => haptic(8);
+const hapticConfirm = () => haptic([10, 30, 18]);
+const hapticError   = () => haptic([30, 50, 30]);
+const hapticDone    = () => haptic([15, 40, 15, 40, 30]);
+
+/* ===========================================================
+   LEITNER
+=========================================================== */
+function bumpBox(id, correct) {
+  const cur = state.boxes[id] || 1;
+  if (correct) {
+    state.boxes[id] = Math.min(5, cur + 1);
+  } else {
+    state.boxes[id] = 1;
+  }
+}
+
+function boxCounts() {
+  const c = [0,0,0,0,0];
+  Object.values(state.boxes).forEach(b => {
+    if (b >= 1 && b <= 5) c[b-1]++;
+  });
+  return c;
+}
+
+/* ===========================================================
+   UTIL
+=========================================================== */
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function el(tag, attrs = {}, ...children) {
+  const e = document.createElement(tag);
+  for (const k in attrs) {
+    if (k === 'class') e.className = attrs[k];
+    else if (k === 'html') e.innerHTML = attrs[k];
+    else if (k.startsWith('on')) e[k.toLowerCase()] = attrs[k];
+    else e.setAttribute(k, attrs[k]);
+  }
+  for (const c of children) {
+    if (c == null || c === false) continue;
+    if (Array.isArray(c)) c.forEach(x => x && e.appendChild(typeof x === 'string' ? document.createTextNode(x) : x));
+    else e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return e;
+}
+
+function renderStem(stem) {
+  // replace ___ with styled blank
+  return stem.replace(/___/g, '<span class="blank">&nbsp;&nbsp;&nbsp;</span>');
+}
+
+/* ===========================================================
+   HEADER / PROGRESS
+=========================================================== */
+function header() {
+  return el('div', {class:'header'},
+    el('div', {class:'cat-pill'}, 'C1 · 仮定法・倒置'),
+    el('button', {class:'reset-btn', onclick:resetAll}, 'リセット')
+  );
+}
+
+function progressBar() {
+  const stages = ['learn','recall','type','mix'];
+  const idx = stages.indexOf(state.stage);
+  const rail = el('div', {class:'progress-rail'});
+  stages.forEach((s, i) => {
+    const seg = el('div', {class:'progress-seg' + (i < idx ? ' done' : (i === idx ? ' active' : ''))});
+    rail.appendChild(seg);
+  });
+  return rail;
+}
+
+/* ===========================================================
+   WELCOME
+=========================================================== */
+function renderWelcome() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  root.appendChild(header());
+
+  const totalDone = state.sessionAnswers.length;
+  const masteredCount = Object.values(state.boxes).filter(b => b >= 4).length;
+
+  root.appendChild(el('div', {class:'welcome fade-in'},
+    el('div', {class:'welcome-icon'}, 'C1'),
+    el('h1', {class:'welcome-title'}, '仮定法・倒置仮定'),
+    el('p', {class:'welcome-desc'}, '大問1必出、長文・リスニングでも頻出。最優先カテゴリ。'),
+
+    el('div', {class:'feature-list'},
+      el('div', {class:'feature-row'},
+        el('div', {class:'feature-icon fi-1'}, '📖'),
+        el('div', {},
+          el('div', {class:'feature-title'}, 'Learn'),
+          el('div', {class:'feature-sub'}, '概念カード 3枚')
+        )
+      ),
+      el('div', {class:'feature-row'},
+        el('div', {class:'feature-icon fi-2'}, '🎯'),
+        el('div', {},
+          el('div', {class:'feature-title'}, 'Recall'),
+          el('div', {class:'feature-sub'}, '4択 16問')
+        )
+      ),
+      el('div', {class:'feature-row'},
+        el('div', {class:'feature-icon fi-3'}, '⌨️'),
+        el('div', {},
+          el('div', {class:'feature-title'}, 'Type'),
+          el('div', {class:'feature-sub'}, '入力 6問')
+        )
+      ),
+      el('div', {class:'feature-row'},
+        el('div', {class:'feature-icon fi-4'}, '🔀'),
+        el('div', {},
+          el('div', {class:'feature-title'}, 'Mix'),
+          el('div', {class:'feature-sub'}, '全問シャッフル＋誤答再出題')
+        )
+      )
+    ),
+
+    masteredCount > 0 ? el('div', {class:'leitner-wrap'},
+      el('div', {class:'leitner-title'}, 'Leitner SRS · 全' + (RECALL_Q.length + TYPE_Q.length) + '問'),
+      leitnerBars()
+    ) : null,
+
+    el('button', {class:'btn btn-c1', onclick:() => { hapticTap(); goToLearn(); }}, totalDone > 0 ? '続きから' : 'はじめる')
+  ));
+}
+
+function leitnerBars() {
+  const counts = boxCounts();
+  const max = Math.max(...counts, 1);
+  const wrap = el('div', {});
+  const bars = el('div', {class:'leitner-bars'});
+  for (let i = 1; i <= 5; i++) {
+    const h = Math.round((counts[i-1] / max) * 100);
+    bars.appendChild(el('div', {class:'leitner-bar', 'data-box':String(i), style:`height:${Math.max(h, 6)}%`}));
+  }
+  const labels = el('div', {class:'leitner-labels'});
+  for (let i = 1; i <= 5; i++) {
+    labels.appendChild(el('div', {class:'leitner-label'}, `B${i}・${counts[i-1]}`));
+  }
+  wrap.appendChild(bars);
+  wrap.appendChild(labels);
+  return wrap;
+}
+
+/* ===========================================================
+   LEARN
+=========================================================== */
+function goToLearn() {
+  state.stage = 'learn';
+  state.learnIdx = 0;
+  saveState();
+  render();
+}
+
+function renderLearn() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  root.appendChild(header());
+  root.appendChild(progressBar());
+
+  const card = LEARN_CARDS[state.learnIdx];
+  const isLast = state.learnIdx === LEARN_CARDS.length - 1;
+
+  root.appendChild(el('h2', {class:'stage-title'}, 'Learn'));
+  root.appendChild(el('p', {class:'stage-sub'}, '概念を頭に入れる'));
+
+  const exList = el('ul', {class:'example-list'});
+  card.examples.forEach(ex => {
+    exList.appendChild(el('li', {},
+      el('div', {class:'ex-en'}, ex.en),
+      el('div', {class:'ex-ja'}, ex.ja)
+    ));
+  });
+
+  root.appendChild(el('div', {class:'card fade-in'},
+    el('div', {class:'card-eyebrow'}, card.eyebrow),
+    el('h3', {class:'card-title'}, card.title),
+    el('div', {class:'card-core'}, card.core),
+    exList,
+    el('div', {class:'tip'}, card.tip)
+  ));
+
+  const btnRow = el('div', {class:'btn-row'});
+  if (state.learnIdx > 0) {
+    btnRow.appendChild(el('button', {class:'btn btn-ghost', onclick:() => {
+      hapticTap();
+      state.learnIdx--;
+      saveState();
+      render();
+    }}, '戻る'));
+  }
+  btnRow.appendChild(el('button', {class:'btn btn-c1', onclick:() => {
+    hapticTap();
+    if (isLast) {
+      state.stage = 'recall';
+      state.recallIdx = 0;
+      saveState();
+      render();
+    } else {
+      state.learnIdx++;
+      saveState();
+      render();
+    }
+  }}, isLast ? 'Recall へ進む' : '次へ'));
+  root.appendChild(btnRow);
+}
+
+/* ===========================================================
+   RECALL (4択)
+=========================================================== */
+let currentConfidence = null;
+let currentFeedback = null; // { correct, picked, q }
+
+function renderRecall() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  root.appendChild(header());
+  root.appendChild(progressBar());
+
+  const q = RECALL_Q[state.recallIdx];
+
+  root.appendChild(el('h2', {class:'stage-title'}, 'Recall'));
+  root.appendChild(el('p', {class:'stage-sub'}, '4択で素早く判断'));
+
+  root.appendChild(el('div', {class:'q-counter'}, `Q ${state.recallIdx + 1} / ${RECALL_Q.length}`));
+  root.appendChild(el('div', {class:'q-stem fade-in', html: renderStem(q.stem)}));
+
+  if (!currentFeedback) {
+    // confidence selector
+    root.appendChild(renderConfidence());
+
+    const choicesWrap = el('div', {class:'choices'});
+    const keys = ['A','B','C','D'];
+    q.choices.forEach((c, i) => {
+      const btn = el('button', {class:'choice', onclick:() => answerRecall(q, i)},
+        el('div', {class:'choice-key'}, keys[i]),
+        el('div', {}, c)
+      );
+      btn.disabled = currentConfidence === null;
+      choicesWrap.appendChild(btn);
+    });
+    root.appendChild(choicesWrap);
+    if (currentConfidence === null) {
+      root.appendChild(el('p', {style:'text-align:center;color:var(--text-4);font-size:13px;margin-top:-8px;'}, '↑ まず自信度を選んでから解答'));
+    }
+  } else {
+    // feedback view
+    const choicesWrap = el('div', {class:'choices'});
+    const keys = ['A','B','C','D'];
+    q.choices.forEach((c, i) => {
+      let cls = 'choice';
+      if (i === q.correct) cls += ' correct';
+      else if (i === currentFeedback.picked) cls += ' wrong';
+      const btn = el('button', {class:cls, disabled:'true'},
+        el('div', {class:'choice-key'}, keys[i]),
+        el('div', {}, c)
+      );
+      choicesWrap.appendChild(btn);
+    });
+    root.appendChild(choicesWrap);
+
+    root.appendChild(renderFeedback(currentFeedback.correct, q.choices[q.correct], q.why, q.id));
+
+    root.appendChild(el('button', {class:'btn btn-c1', onclick:() => {
+      hapticTap();
+      currentFeedback = null;
+      currentConfidence = null;
+      state.recallIdx++;
+      if (state.recallIdx >= RECALL_Q.length) {
+        state.stage = 'type';
+        state.typeIdx = 0;
+        hapticDone();
+      }
+      saveState();
+      render();
+    }}, state.recallIdx + 1 >= RECALL_Q.length ? 'Type へ進む' : '次の問題'));
+  }
+}
+
+function renderConfidence() {
+  const wrap = el('div', {class:'conf-wrap'});
+  wrap.appendChild(el('div', {class:'conf-label'}, '答える前に自信度を選択'));
+  const row = el('div', {class:'conf-row'});
+  ['低', '中', '高'].forEach((label, i) => {
+    const val = ['low','mid','high'][i];
+    const btn = el('button', {
+      class: 'conf-btn' + (currentConfidence === val ? ' selected' : ''),
+      onclick: () => {
+        hapticTap();
+        currentConfidence = val;
+        render();
+      }
+    }, label);
+    row.appendChild(btn);
+  });
+  wrap.appendChild(row);
+  return wrap;
+}
+
+function answerRecall(q, picked) {
+  const correct = picked === q.correct;
+  if (correct) { hapticConfirm(); } else { hapticError(); }
+
+  bumpBox(q.id, correct);
+  state.sessionAnswers.push({
+    id: q.id, type: 'recall',
+    correct, confidence: currentConfidence
+  });
+  state.totalAttempts++;
+  if (correct) state.totalCorrect++;
+
+  currentFeedback = { correct, picked, q };
+  saveState();
+  render();
+}
+
+function renderFeedback(correct, answer, why, qid) {
+  const fb = el('div', {class:'feedback'});
+  fb.appendChild(el('div', {class:'fb-head ' + (correct ? 'ok' : 'ng')},
+    correct ? '✓ 正解' : '✗ 不正解'
+  ));
+  fb.appendChild(el('div', {class:'fb-answer'}, '答え: ' + answer));
+  fb.appendChild(el('div', {class:'fb-why'}, why));
+  const newBox = state.boxes[qid];
+  fb.appendChild(el('div', {class:'fb-box'}, `Box ${newBox} / 5 ` + (correct ? '↑' : '↓ B1へ降格')));
+  return fb;
+}
+
+/* ===========================================================
+   TYPE (入力)
+=========================================================== */
+let typeFeedback = null;
+
+function renderType() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  root.appendChild(header());
+  root.appendChild(progressBar());
+
+  const q = TYPE_Q[state.typeIdx];
+
+  root.appendChild(el('h2', {class:'stage-title'}, 'Type'));
+  root.appendChild(el('p', {class:'stage-sub'}, '入力でアクティブに想起'));
+
+  root.appendChild(el('div', {class:'q-counter'}, `Q ${state.typeIdx + 1} / ${TYPE_Q.length} · ${q.hint}`));
+  root.appendChild(el('div', {class:'q-stem fade-in', html: renderStem(q.stem)}));
+
+  if (!typeFeedback) {
+    root.appendChild(renderConfidence());
+
+    const input = el('input', {
+      class:'type-input',
+      type:'text',
+      placeholder:'…',
+      autocomplete:'off',
+      autocapitalize:'off',
+      autocorrect:'off',
+      spellcheck:'false',
+      id:'type-input'
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && currentConfidence !== null) {
+        e.preventDefault();
+        submitType(q, input.value);
+      }
+    });
+    const tw = el('div', {class:'type-wrap'}, input);
+    root.appendChild(tw);
+
+    const submit = el('button', {
+      class:'btn btn-c1',
+      onclick:() => submitType(q, input.value)
+    }, '答える');
+    submit.disabled = currentConfidence === null;
+    root.appendChild(submit);
+    if (currentConfidence === null) {
+      root.appendChild(el('p', {style:'text-align:center;color:var(--text-4);font-size:13px;margin-top:12px;'}, '↑ まず自信度を選んで'));
+    }
+
+    setTimeout(() => input.focus(), 50);
+  } else {
+    const input = el('input', {
+      class:'type-input ' + (typeFeedback.correct ? 'correct' : 'wrong'),
+      type:'text',
+      value: typeFeedback.userAns,
+      disabled: 'true'
+    });
+    root.appendChild(el('div', {class:'type-wrap'}, input));
+
+    root.appendChild(renderFeedback(typeFeedback.correct, q.answer, q.why, q.id));
+
+    const isLast = state.typeIdx + 1 >= TYPE_Q.length;
+    root.appendChild(el('button', {class:'btn btn-c1', onclick:() => {
+      hapticTap();
+      typeFeedback = null;
+      currentConfidence = null;
+      state.typeIdx++;
+      if (state.typeIdx >= TYPE_Q.length) {
+        state.stage = 'mix';
+        state.mixIdx = 0;
+        state.mixQueue = shuffle([
+          ...RECALL_Q.map(q => ({type:'recall', id:q.id})),
+          ...TYPE_Q.map(q => ({type:'type', id:q.id}))
+        ]);
+        hapticDone();
+      }
+      saveState();
+      render();
+    }}, isLast ? 'Mix へ進む' : '次の問題'));
+  }
+}
+
+function submitType(q, val) {
+  const userAns = (val || '').trim().toLowerCase();
+  if (!userAns) {
+    hapticError();
+    return;
+  }
+  const correct = userAns === q.answer.toLowerCase();
+  if (correct) hapticConfirm(); else hapticError();
+
+  bumpBox(q.id, correct);
+  state.sessionAnswers.push({
+    id: q.id, type:'type',
+    correct, confidence: currentConfidence
+  });
+  state.totalAttempts++;
+  if (correct) state.totalCorrect++;
+
+  typeFeedback = { correct, userAns: val.trim() };
+  saveState();
+  render();
+}
+
+/* ===========================================================
+   MIX (シャッフル + 誤答再出題)
+=========================================================== */
+let mixFeedback = null;
+
+function getCurrentMixQuestion() {
+  if (state.mixIdx >= state.mixQueue.length) return null;
+  const item = state.mixQueue[state.mixIdx];
+  if (item.type === 'recall') {
+    return { type:'recall', q: RECALL_Q.find(x => x.id === item.id) };
+  } else {
+    return { type:'type', q: TYPE_Q.find(x => x.id === item.id) };
+  }
+}
+
+function renderMix() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  root.appendChild(header());
+  root.appendChild(progressBar());
+
+  const cur = getCurrentMixQuestion();
+  if (!cur) {
+    state.stage = 'results';
+    saveState();
+    render();
+    return;
+  }
+
+  root.appendChild(el('h2', {class:'stage-title'}, 'Mix'));
+  root.appendChild(el('p', {class:'stage-sub'}, '全問シャッフル · 間違えたら再出題'));
+
+  root.appendChild(el('div', {class:'q-counter'},
+    `Q ${state.mixIdx + 1} / ${state.mixQueue.length} · ${cur.type === 'recall' ? '4択' : '入力'}`
+  ));
+  root.appendChild(el('div', {class:'q-stem fade-in', html: renderStem(cur.q.stem)}));
+
+  if (cur.type === 'recall') {
+    renderMixRecall(root, cur.q);
+  } else {
+    renderMixType(root, cur.q);
+  }
+}
+
+function renderMixRecall(root, q) {
+  if (!mixFeedback) {
+    root.appendChild(renderConfidence());
+    const choicesWrap = el('div', {class:'choices'});
+    const keys = ['A','B','C','D'];
+    q.choices.forEach((c, i) => {
+      const btn = el('button', {class:'choice', onclick:() => answerMixRecall(q, i)},
+        el('div', {class:'choice-key'}, keys[i]),
+        el('div', {}, c)
+      );
+      btn.disabled = currentConfidence === null;
+      choicesWrap.appendChild(btn);
+    });
+    root.appendChild(choicesWrap);
+  } else {
+    const choicesWrap = el('div', {class:'choices'});
+    const keys = ['A','B','C','D'];
+    q.choices.forEach((c, i) => {
+      let cls = 'choice';
+      if (i === q.correct) cls += ' correct';
+      else if (i === mixFeedback.picked) cls += ' wrong';
+      choicesWrap.appendChild(el('button', {class:cls, disabled:'true'},
+        el('div', {class:'choice-key'}, keys[i]),
+        el('div', {}, c)
+      ));
+    });
+    root.appendChild(choicesWrap);
+    root.appendChild(renderFeedback(mixFeedback.correct, q.choices[q.correct], q.why, q.id));
+    root.appendChild(nextMixBtn());
+  }
+}
+
+function renderMixType(root, q) {
+  if (!mixFeedback) {
+    root.appendChild(renderConfidence());
+    const input = el('input', {
+      class:'type-input',
+      type:'text',
+      placeholder: q.hint,
+      autocomplete:'off',
+      autocapitalize:'off',
+      autocorrect:'off',
+      spellcheck:'false'
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && currentConfidence !== null) {
+        e.preventDefault();
+        submitMixType(q, input.value);
+      }
+    });
+    root.appendChild(el('div', {class:'type-wrap'}, input));
+
+    const submit = el('button', {
+      class:'btn btn-c1',
+      onclick:() => submitMixType(q, input.value)
+    }, '答える');
+    submit.disabled = currentConfidence === null;
+    root.appendChild(submit);
+
+    setTimeout(() => input.focus(), 50);
+  } else {
+    const input = el('input', {
+      class:'type-input ' + (mixFeedback.correct ? 'correct' : 'wrong'),
+      type:'text',
+      value: mixFeedback.userAns,
+      disabled: 'true'
+    });
+    root.appendChild(el('div', {class:'type-wrap'}, input));
+    root.appendChild(renderFeedback(mixFeedback.correct, q.answer, q.why, q.id));
+    root.appendChild(nextMixBtn());
+  }
+}
+
+function nextMixBtn() {
+  return el('button', {class:'btn btn-c1', onclick:() => {
+    hapticTap();
+    // if wrong, re-queue this question at the end
+    if (mixFeedback && !mixFeedback.correct) {
+      const cur = state.mixQueue[state.mixIdx];
+      state.mixQueue.push(cur);
+    }
+    mixFeedback = null;
+    currentConfidence = null;
+    state.mixIdx++;
+    if (state.mixIdx >= state.mixQueue.length) {
+      state.stage = 'results';
+      hapticDone();
+    }
+    saveState();
+    render();
+  }}, state.mixIdx + 1 >= state.mixQueue.length ? '結果を見る' : '次の問題');
+}
+
+function answerMixRecall(q, picked) {
+  const correct = picked === q.correct;
+  if (correct) hapticConfirm(); else hapticError();
+  bumpBox(q.id, correct);
+  state.sessionAnswers.push({ id:q.id, type:'mix-recall', correct, confidence:currentConfidence });
+  state.totalAttempts++;
+  if (correct) state.totalCorrect++;
+  mixFeedback = { correct, picked };
+  saveState();
+  render();
+}
+
+function submitMixType(q, val) {
+  const userAns = (val || '').trim().toLowerCase();
+  if (!userAns) { hapticError(); return; }
+  const correct = userAns === q.answer.toLowerCase();
+  if (correct) hapticConfirm(); else hapticError();
+  bumpBox(q.id, correct);
+  state.sessionAnswers.push({ id:q.id, type:'mix-type', correct, confidence:currentConfidence });
+  state.totalAttempts++;
+  if (correct) state.totalCorrect++;
+  mixFeedback = { correct, userAns: val.trim() };
+  saveState();
+  render();
+}
+
+/* ===========================================================
+   RESULTS
+=========================================================== */
+function renderResults() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  root.appendChild(header());
+
+  const total = state.sessionAnswers.length;
+  const correct = state.sessionAnswers.filter(a => a.correct).length;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  // calibration
+  const byConf = { low:[], mid:[], high:[] };
+  state.sessionAnswers.forEach(a => {
+    if (a.confidence && byConf[a.confidence]) byConf[a.confidence].push(a.correct);
+  });
+  const calc = (arr) => arr.length > 0 ? Math.round(arr.filter(x => x).length / arr.length * 100) : null;
+  const lowPct = calc(byConf.low);
+  const midPct = calc(byConf.mid);
+  const highPct = calc(byConf.high);
+
+  const mastered = Object.values(state.boxes).filter(b => b >= 4).length;
+  const totalQ = RECALL_Q.length + TYPE_Q.length;
+
+  root.appendChild(el('div', {class:'results-hero fade-in'},
+    el('div', {class:'results-score'}, correct + ' / ' + total),
+    el('div', {class:'results-pct'}, pct + '% 正答率')
+  ));
+
+  root.appendChild(el('div', {class:'metric-grid'},
+    el('div', {class:'metric'},
+      el('div', {class:'metric-label'}, 'Mastered'),
+      el('div', {class:'metric-val'}, mastered + '/' + totalQ)
+    ),
+    el('div', {class:'metric'},
+      el('div', {class:'metric-label'}, '総挑戦数'),
+      el('div', {class:'metric-val'}, String(state.totalAttempts))
+    )
+  ));
+
+  // calibration card
+  const calRows = [];
+  if (highPct !== null) {
+    const warn = highPct < 70;
+    calRows.push(el('div', {class:'calibration-row'},
+      el('span', {}, '自信「高」のとき'),
+      el('span', {class: warn ? 'cal-bad' : 'cal-good'},
+        highPct + '%（' + byConf.high.length + '問）'
+      )
+    ));
+    if (warn) {
+      calRows.push(el('div', {style:'font-size:12px;color:var(--orange);margin-top:6px;line-height:1.5;'},
+        '⚠️ 自信が高いのに正答率が低い。「知ってるつもり」になりやすいパターンを意識して。'
+      ));
+    }
+  }
+  if (midPct !== null) {
+    calRows.push(el('div', {class:'calibration-row'},
+      el('span', {}, '自信「中」のとき'),
+      el('span', {}, midPct + '%（' + byConf.mid.length + '問）')
+    ));
+  }
+  if (lowPct !== null) {
+    calRows.push(el('div', {class:'calibration-row'},
+      el('span', {}, '自信「低」のとき'),
+      el('span', {}, lowPct + '%（' + byConf.low.length + '問）')
+    ));
+  }
+
+  if (calRows.length > 0) {
+    root.appendChild(el('div', {class:'calibration'},
+      el('div', {class:'calibration-title'}, 'メタ認知校正'),
+      calRows
+    ));
+  }
+
+  // Leitner snapshot
+  root.appendChild(el('div', {class:'leitner-wrap'},
+    el('div', {class:'leitner-title'}, 'Leitner SRS（B5に上げきろう）'),
+    leitnerBars()
+  ));
+
+  // Actions
+  root.appendChild(el('button', {class:'btn btn-c1', onclick:() => {
+    hapticTap();
+    // continue: keep Leitner boxes, reset session counters & start over from Learn
+    state.sessionAnswers = [];
+    state.stage = 'learn';
+    state.learnIdx = 0;
+    state.recallIdx = 0;
+    state.typeIdx = 0;
+    state.mixIdx = 0;
+    state.mixQueue = [];
+    currentConfidence = null;
+    currentFeedback = null;
+    typeFeedback = null;
+    mixFeedback = null;
+    saveState();
+    render();
+  }}, 'もう1周（Leitner継続）'));
+
+  root.appendChild(el('div', {style:'height:10px;'}));
+
+  root.appendChild(el('button', {class:'btn btn-ghost', onclick:() => {
+    hapticTap();
+    state.stage = 'welcome';
+    saveState();
+    render();
+  }}, 'ホームに戻る'));
+}
+
+/* ===========================================================
+   ROUTER
+=========================================================== */
+function render() {
+  switch (state.stage) {
+    case 'welcome': renderWelcome(); break;
+    case 'learn':   renderLearn(); break;
+    case 'recall':  renderRecall(); break;
+    case 'type':    renderType(); break;
+    case 'mix':     renderMix(); break;
+    case 'results': renderResults(); break;
+    default: state.stage = 'welcome'; render();
+  }
+  window.scrollTo({top: 0, behavior:'smooth'});
+}
+
+render();
+</script>
+</body>
+</html>
